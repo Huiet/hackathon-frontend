@@ -38,6 +38,7 @@ function RootComponent() {
 
       <AppShell.Main
         style={{
+          display: "flex",
           backgroundColor:
             colorScheme === "light"
               ? theme.colors.gray[0]

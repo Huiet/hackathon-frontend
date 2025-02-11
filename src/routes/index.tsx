@@ -10,6 +10,7 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { CSSProperties } from "react";
+import { PolicyGrid } from "../PolicyGrid";
 
 const CardContainer = ({
   children,
@@ -67,7 +68,11 @@ export const Route = createFileRoute("/")({
 
 function HomeComponent() {
   return (
-    <Stack>
+    <Stack
+      style={{
+        flexGrow: 1,
+      }}
+    >
       <Title order={4}>Owner Information</Title>
       <Group>
         <CardContainer>
@@ -131,6 +136,7 @@ function HomeComponent() {
           </Group>
         </CardContainer>
       </Group>
+      <PolicyGrid />
     </Stack>
   );
 }
