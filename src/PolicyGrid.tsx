@@ -1,5 +1,11 @@
-import { ColDef, colorSchemeDark, themeQuartz } from "ag-grid-community";
-import { AgGridReact, CustomCellRendererProps } from "ag-grid-react";
+import {
+  ColDef,
+  colorSchemeDark,
+  RowSelectionOptions,
+  SelectionChangedEvent,
+  themeQuartz,
+} from "ag-grid-community";
+import { AgGridReact } from "ag-grid-react";
 import { Button, Text, useMantineColorScheme } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 
@@ -184,21 +190,21 @@ const colDefs: ColDef<Policy>[] = [
     headerName: "Financial Advisor",
     field: "financialAdvisor",
   },
-  {
-    headerName: "",
-    pinned: "right",
-    minWidth: 100,
-    maxWidth: 100,
-    lockPinned: true,
-    colId: "actions",
-    cellRenderer: (params: CustomCellRendererProps<Policy>) => {
-      return (
-        <Button variant="outline" size={"compact-md"}>
-          Edit
-        </Button>
-      );
-    },
-  },
+  // {
+  //   headerName: "",
+  //   pinned: "right",
+  //   minWidth: 100,
+  //   maxWidth: 100,
+  //   lockPinned: true,
+  //   colId: "actions",
+  //   cellRenderer: (params: CustomCellRendererProps<Policy>) => {
+  //     return (
+  //       <Button variant="outline" size={"compact-md"}>
+  //         Edit
+  //       </Button>
+  //     );
+  //   },
+  // },
 ];
 
 const defaultColDef: ColDef = {
@@ -209,6 +215,11 @@ const defaultColDef: ColDef = {
   sortable: true,
   resizable: true,
   filter: false,
+};
+
+const selectionColumnDef: ColDef = {
+  pinned: "left",
+  lockPinned: true,
 };
 
 const PolicyCellRenderer = (params: any) => {
@@ -229,8 +240,33 @@ const PolicyCellRenderer = (params: any) => {
   );
 };
 
-export const PolicyGrid = () => {
+type PolicyGridProps = {
+  selectedPolicies?: Policy[];
+  setSelectedPolicies?: (policies: Policy[]) => void;
+};
+export const PolicyGrid = ({
+  selectedPolicies,
+  setSelectedPolicies,
+}: PolicyGridProps) => {
+  const rowSelection: RowSelectionOptions | undefined = useMemo(
+    () =>
+      setSelectedPolicies
+        ? {
+            mode: "multiRow",
+          }
+        : undefined,
+    [],
+  );
   const openDetailsModal = useCallback((policy: Policy) => {}, []);
+
+  const onSelectionChanged = useCallback(
+    (event: SelectionChangedEvent<Policy>) => {
+      const dataSelected = event.api.getSelectedRows();
+      setSelectedPolicies?.(dataSelected);
+      console.log(event);
+    },
+    [],
+  );
 
   const colDefsToUse: ColDef[] = useMemo(() => {
     return [
@@ -262,6 +298,9 @@ export const PolicyGrid = () => {
       columnDefs={colDefsToUse}
       rowData={MockData}
       defaultColDef={defaultColDef}
+      rowSelection={rowSelection}
+      selectionColumnDef={selectionColumnDef}
+      onSelectionChanged={onSelectionChanged}
     />
   );
 };

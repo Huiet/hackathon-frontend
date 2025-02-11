@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconHome2, IconUser } from "@tabler/icons-react";
+import { IconEdit, IconHome2, IconUser } from "@tabler/icons-react";
 import { Stack, Tooltip, UnstyledButton } from "@mantine/core";
 import classes from "./Navbar.module.scss";
 import { Link } from "@tanstack/react-router";
@@ -16,6 +16,7 @@ function NavbarLink({ icon: Icon, label, active, route }: NavbarLinkProps) {
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton
         component={Link}
+        color={"white"}
         to={route}
         activeOptions={{ exact: true }}
         className={classes.link}
@@ -31,8 +32,8 @@ function NavbarLink({ icon: Icon, label, active, route }: NavbarLinkProps) {
 }
 
 const routeLinks = [
-  { icon: IconHome2, label: "Home", route: "/" },
-  { icon: IconUser, label: "Beneficiaries", route: "/Beneficiaries" },
+  { icon: IconHome2, label: "My Policies", route: "/" },
+  { icon: IconEdit, label: "Edit My Policies", route: "/edit-policies/" },
 ];
 
 export function Navbar() {

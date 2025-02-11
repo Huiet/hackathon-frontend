@@ -1,72 +1,25 @@
 import * as React from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Group,
   NumberFormatter,
   Stack,
   Title,
   Text,
-  useMantineTheme,
-  useMantineColorScheme,
+  Button,
 } from "@mantine/core";
-import { CSSProperties } from "react";
-import { PolicyGrid } from "../PolicyGrid";
-
-const CardContainer = ({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
-  style?: CSSProperties;
-}) => {
-  const theme = useMantineTheme();
-
-  const { colorScheme } = useMantineColorScheme();
-  return (
-    <div
-      style={{
-        height: "6rem",
-        padding: "1rem 1.25rem",
-        backgroundColor:
-          colorScheme === "light" ? "white" : theme.colors.dark[5],
-        borderRadius: "0.5rem",
-        boxShadow:
-          "0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 5%)",
-        ...style,
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-const LabelText = ({ label }: { label: string }) => {
-  return (
-    <Text size={"xs"} c={"dimmed"} fw={500}>
-      {label}
-    </Text>
-  );
-};
-
-const ValueText = ({ label }: { label: string }) => {
-  return (
-    <Text
-      size={"sm"}
-      fw={500}
-      style={{
-        whiteSpace: "pre-wrap",
-      }}
-    >
-      {label}
-    </Text>
-  );
-};
+import { useState } from "react";
+import { Policy, PolicyGrid } from "../PolicyGrid";
+import { CardContainer } from "../components/CardContainer";
+import { LabelText } from "../components/LabelText";
+import { ValueText } from "../components/ValueText";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
 });
 
 function HomeComponent() {
+  const [selectedPolicies, setSelectedPolicies] = useState<Policy[]>([]);
   return (
     <Stack
       style={{
@@ -75,7 +28,11 @@ function HomeComponent() {
     >
       <Title order={4}>Owner Information</Title>
       <Group>
-        <CardContainer>
+        <CardContainer
+          style={{
+            height: "6rem",
+          }}
+        >
           <Group pt={"xs"}>
             <svg
               width="32"
@@ -117,7 +74,7 @@ function HomeComponent() {
           </Group>
         </CardContainer>
 
-        <CardContainer style={{ flexGrow: 1 }}>
+        <CardContainer style={{ flexGrow: 1, height: "6rem" }}>
           <Group gap={"3rem"} align={"flex-start"}>
             <Stack gap={"2px"}>
               <LabelText label={"Name"} />
@@ -136,7 +93,27 @@ function HomeComponent() {
           </Group>
         </CardContainer>
       </Group>
-      <PolicyGrid />
+      <Group justify={"space-between"}>
+        <Title order={4}>Policies</Title>
+        <Group>
+          {/*<Tooltip*/}
+          {/*  label={*/}
+          {/*    selectedPolicies.length === 0*/}
+          {/*      ? "Select Policies To Edit Multiple Policies"*/}
+          {/*      : "Edit Policies"*/}
+          {/*  }*/}
+          {/*>*/}
+          <Button variant={"outline"} component={Link} to={"/edit-policies/"}>
+            Edit My Policies
+          </Button>
+          {/*</Tooltip>*/}
+          <Button variant={"outline"}>Contact Advisor</Button>
+        </Group>
+      </Group>
+      <PolicyGrid
+      // selectedPolicies={selectedPolicies}
+      // setSelectedPolicies={setSelectedPolicies}
+      />
     </Stack>
   );
 }

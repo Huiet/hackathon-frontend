@@ -5,7 +5,13 @@ import { routeTree } from "./routeTree.gen";
 
 import "@mantine/core/styles.css";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { createTheme, MantineProvider } from "@mantine/core";
+import {
+  Button,
+  createTheme,
+  Input,
+  MantineProvider,
+  Title,
+} from "@mantine/core";
 
 // Set up a Router instance
 const router = createRouter({
@@ -26,6 +32,23 @@ const rootElement = document.getElementById("app")!;
 
 const theme = createTheme({
   primaryColor: "blue",
+  components: {
+    Title: Title.extend({
+      defaultProps: {
+        order: 4,
+      },
+    }),
+    Input: Input.extend({
+      defaultProps: {
+        radius: "md",
+      },
+    }),
+    Button: Button.extend({
+      defaultProps: {
+        radius: "xl",
+      },
+    }),
+  },
   /** Put your mantine theme override here */
 });
 if (!rootElement.innerHTML) {

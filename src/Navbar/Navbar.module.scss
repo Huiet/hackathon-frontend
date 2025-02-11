@@ -12,7 +12,6 @@
 
 .navbarMain {
   flex: 1;
-  margin-top: 50px;
 }
 
 .link {
@@ -22,11 +21,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: black;
-  @include mantine.dark {
-    color: white;
-  }
-  //color: var(--mantine-primary-color-8);
 
   &:hover {
     background-color: var(--mantine-primary-color-8);
