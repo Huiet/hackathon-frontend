@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { JSX, ReactNode, useState } from "react";
 import { Policy, PolicyGrid } from "../../PolicyGrid";
 import {
@@ -27,16 +27,20 @@ type EditCardProps = {
   icon: any;
   detailLabel?: string;
   colorScheme: MantineColorScheme;
+  route: string;
 };
 const EditCard = ({
   label,
   icon: Icon,
   detailLabel,
   colorScheme,
+  route,
 }: EditCardProps) => {
   return (
     <Button
       variant={"outline"}
+      component={Link}
+      to={route}
       color={colorScheme === "light" ? "blue.8" : "blue.6"}
       styles={{
         inner: {
@@ -73,32 +77,39 @@ function EditPolicies() {
     {
       label: "Beneficiary Information",
       icon: IconUsers,
+      route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Annuity Information",
       icon: IconUsers,
+      route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Investments and Values",
       icon: IconUsers,
+      route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Authorized Access",
       detailLabel: "POA / TC",
       icon: IconUsers,
+      route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Withdrawals",
       detailLabel: "Required Minimum Distribution",
       icon: IconUsers,
+      route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Contact Information",
       icon: IconUsers,
+      route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Contributions",
       icon: IconUsers,
+      route: "/edit-policies/edit-beneficiaries",
     },
   ];
 

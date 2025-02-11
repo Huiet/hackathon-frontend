@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as EditPoliciesIndexImport } from './routes/edit-policies/index'
+import { Route as EditPoliciesEditBeneficiariesImport } from './routes/edit-policies/edit-beneficiaries'
 
 // Create/Update Routes
 
@@ -35,6 +36,13 @@ const EditPoliciesIndexRoute = EditPoliciesIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const EditPoliciesEditBeneficiariesRoute =
+  EditPoliciesEditBeneficiariesImport.update({
+    id: '/edit-policies/edit-beneficiaries',
+    path: '/edit-policies/edit-beneficiaries',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -53,6 +61,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/edit-policies/edit-beneficiaries': {
+      id: '/edit-policies/edit-beneficiaries'
+      path: '/edit-policies/edit-beneficiaries'
+      fullPath: '/edit-policies/edit-beneficiaries'
+      preLoaderRoute: typeof EditPoliciesEditBeneficiariesImport
+      parentRoute: typeof rootRoute
+    }
     '/edit-policies/': {
       id: '/edit-policies/'
       path: '/edit-policies'
@@ -68,12 +83,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesRoute
   '/edit-policies': typeof EditPoliciesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesRoute
   '/edit-policies': typeof EditPoliciesIndexRoute
 }
 
@@ -81,27 +98,39 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesRoute
   '/edit-policies/': typeof EditPoliciesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/edit-policies'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/edit-policies/edit-beneficiaries'
+    | '/edit-policies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/edit-policies'
-  id: '__root__' | '/' | '/about' | '/edit-policies/'
+  to: '/' | '/about' | '/edit-policies/edit-beneficiaries' | '/edit-policies'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/edit-policies/edit-beneficiaries'
+    | '/edit-policies/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  EditPoliciesEditBeneficiariesRoute: typeof EditPoliciesEditBeneficiariesRoute
   EditPoliciesIndexRoute: typeof EditPoliciesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  EditPoliciesEditBeneficiariesRoute: EditPoliciesEditBeneficiariesRoute,
   EditPoliciesIndexRoute: EditPoliciesIndexRoute,
 }
 
@@ -117,6 +146,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/edit-policies/edit-beneficiaries",
         "/edit-policies/"
       ]
     },
@@ -125,6 +155,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/edit-policies/edit-beneficiaries": {
+      "filePath": "edit-policies/edit-beneficiaries.tsx"
     },
     "/edit-policies/": {
       "filePath": "edit-policies/index.tsx"

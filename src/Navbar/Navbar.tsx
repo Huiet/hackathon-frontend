@@ -16,14 +16,12 @@ function NavbarLink({ icon: Icon, label, active, route }: NavbarLinkProps) {
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton
         component={Link}
-        color={"white"}
         to={route}
-        activeOptions={{ exact: true }}
+        // activeOptions={{ exact: true }}
         className={classes.link}
         activeProps={{
           className: classes.link_active,
         }}
-        // data-active={active || undefined}
       >
         <Icon size={20} stroke={2} />
       </UnstyledButton>

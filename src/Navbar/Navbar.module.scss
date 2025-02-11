@@ -21,9 +21,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--mantine-color-gray-0);
+
 
   &:hover {
-    background-color: var(--mantine-primary-color-8);
+    background-color: var(--mantine-primary-color-7);
     @include mantine.dark {
       background-color: var(--mantine-color-dark-3);
     }
@@ -31,17 +33,12 @@
   &[data-status="active"] {
     box-shadow: var(--mantine-shadow-sm);
     background-color: var(--mantine-color-white);
-    color: var(--mantine-primary-color-6);
+    color: var(--mantine-primary-color-8);
 
     @include mantine.dark {
       background-color: var(--mantine-color-dark-2);
       color: var(--mantine-color-white);
     }
   }
-  /*&_active,*/
-  /*&_active:hover {*/
-  /*  box-shadow: var(--mantine-shadow-sm);*/
-  /*  background-color: var(--mantine-color-white);*/
-  /*  color: var(--mantine-primary-color-6);*/
-  /*}*/
+
 }

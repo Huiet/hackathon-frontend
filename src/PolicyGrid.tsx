@@ -55,7 +55,7 @@ export type Policy = {
   beneficiaries: Beneficiary[];
 };
 
-const MockData: Policy[] = [
+export const MockData: Policy[] = [
   {
     lastUpdated: "2025-02-10",
     policyNumber: "POL123456789",
