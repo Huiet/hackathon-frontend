@@ -24,7 +24,7 @@ function camelCaseToWords(s: string) {
 function RouteComponent() {
   const { colorScheme } = useMantineColorScheme();
   return (
-    <Stack style={{ flexGrow: 1 }}>
+    <Stack style={{ flexGrow: 1, maxWidth: "80rem" }}>
       <Title>Edit Beneficiaries</Title>
       {MockData.map((policy) => (
         <CardContainer
@@ -46,13 +46,15 @@ function RouteComponent() {
               </Group>
               <Button variant={"outline"}>Edit This Contract</Button>
             </Group>
-            <Table>
+            <Table striped highlightOnHover withRowBorders={false}>
               <Table.Thead>
                 <Table.Tr>
-                  <Table.Th>Name</Table.Th>
-                  <Table.Th>Per Stripes?</Table.Th>
-                  <Table.Th>Amount</Table.Th>
-                  <Table.Th>Primary / Contingent</Table.Th>
+                  <Table.Th style={{ width: "20rem" }}>Name</Table.Th>
+                  <Table.Th>Per Stirpes?</Table.Th>
+                  <Table.Th>Allocation</Table.Th>
+                  <Table.Th style={{ width: "14rem" }}>
+                    Primary / Contingent
+                  </Table.Th>
                   <Table.Th>Relationship</Table.Th>
                 </Table.Tr>
               </Table.Thead>

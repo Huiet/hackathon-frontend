@@ -4,9 +4,15 @@ import {
   RowSelectionOptions,
   SelectionChangedEvent,
   themeQuartz,
+  ValueGetterParams,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-import { Button, Text, useMantineColorScheme } from "@mantine/core";
+import {
+  Button,
+  NumberFormatter,
+  Text,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { useCallback, useMemo } from "react";
 
 export type Transaction = {
@@ -82,21 +88,21 @@ export const MockData: Policy[] = [
         relationship: "spouse",
         name: "Sarah Smith",
         type: "percentage",
-        value: 50,
+        value: 100,
       },
       {
-        role: "secondary",
+        role: "contingent",
         relationship: "child",
         name: "Emily Smith",
         type: "percentage",
-        value: 30,
+        value: 50,
       },
       {
         role: "contingent",
         relationship: "sibling",
         name: "David Smith",
         type: "percentage",
-        value: 20,
+        value: 50,
       },
     ],
   },
@@ -126,14 +132,14 @@ export const MockData: Policy[] = [
         relationship: "spouse",
         name: "Tom Johnson",
         type: "dollar",
-        value: 100000,
+        value: 100,
       },
       {
-        role: "secondary",
+        role: "contingent",
         relationship: "child",
         name: "Sophia Johnson",
         type: "dollar",
-        value: 50000,
+        value: 100,
       },
     ],
   },
@@ -179,8 +185,17 @@ const colDefs: ColDef<Policy>[] = [
     field: "firm",
   },
   {
-    headerName: "Account Number",
+    headerName: "Account Value",
     field: "accountValue",
+    cellRenderer: (params: any) => {
+      return (
+        <NumberFormatter
+          value={params.value}
+          thousandSeparator={true}
+          prefix={"$"}
+        />
+      );
+    },
   },
   {
     headerName: "Product Category",

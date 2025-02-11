@@ -14,7 +14,15 @@ import {
   CardContainer,
   CardContainerStyles,
 } from "../../components/CardContainer";
-import { IconUsers } from "@tabler/icons-react";
+import {
+  IconCoin,
+  IconInfoCircle,
+  IconLockAccess,
+  IconMessage2Dollar,
+  IconTipJar,
+  IconUsers,
+  IconUserSquareRounded,
+} from "@tabler/icons-react";
 import { ValueText } from "../../components/ValueText";
 import { LabelText } from "../../components";
 
@@ -81,34 +89,34 @@ function EditPolicies() {
     },
     {
       label: "Annuity Information",
-      icon: IconUsers,
+      icon: IconInfoCircle,
       route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Investments and Values",
-      icon: IconUsers,
+      icon: IconMessage2Dollar,
       route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Authorized Access",
       detailLabel: "POA / TC",
-      icon: IconUsers,
+      icon: IconLockAccess,
       route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Withdrawals",
       detailLabel: "Required Minimum Distribution",
-      icon: IconUsers,
+      icon: IconCoin,
       route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Contact Information",
-      icon: IconUsers,
+      icon: IconUserSquareRounded,
       route: "/edit-policies/edit-beneficiaries",
     },
     {
       label: "Contributions",
-      icon: IconUsers,
+      icon: IconTipJar,
       route: "/edit-policies/edit-beneficiaries",
     },
   ];
