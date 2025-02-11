@@ -4,6 +4,8 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
 import "@mantine/core/styles.css";
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import { createTheme, MantineProvider } from "@mantine/core";
 
 // Set up a Router instance
 const router = createRouter({
@@ -11,6 +13,8 @@ const router = createRouter({
   defaultPreload: "intent",
 });
 
+// Register all Community features
+ModuleRegistry.registerModules([AllCommunityModule]);
 // Register things for typesafety
 declare module "@tanstack/react-router" {
   interface Register {
@@ -20,7 +24,15 @@ declare module "@tanstack/react-router" {
 
 const rootElement = document.getElementById("app")!;
 
+const theme = createTheme({
+  primaryColor: "blue",
+  /** Put your mantine theme override here */
+});
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<RouterProvider router={router} />);
+  root.render(
+    <MantineProvider theme={theme}>
+      <RouterProvider router={router} />
+    </MantineProvider>,
+  );
 }

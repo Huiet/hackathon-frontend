@@ -1,39 +1,53 @@
 import * as React from "react";
-import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
+import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { AppShell, Burger, createTheme, MantineProvider } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import {
+  AppShell,
+  useMantineColorScheme,
+  useMantineTheme,
+} from "@mantine/core";
 import { Navbar } from "../Navbar/Navbar";
+import { Top } from "../Navbar/Top";
+import { useColorScheme } from "@mantine/hooks";
 
 export const Route = createRootRoute({
   component: RootComponent,
 });
 
-const theme = createTheme({
-  primaryColor: "blue",
-  /** Put your mantine theme override here */
-});
 function RootComponent() {
+  const theme = useMantineTheme();
+  const { colorScheme } = useMantineColorScheme();
+  console.log("scheme,", colorScheme);
+
   return (
-    <MantineProvider theme={theme}>
-      <AppShell
-        navbar={{
-          width: "auto",
-          breakpoint: 0,
-          // collapsed: { mobile: !opened },
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{
+        width: "5rem",
+        breakpoint: 0,
+      }}
+      padding="md"
+    >
+      <AppShell.Header>
+        <Top />
+        <div></div>
+      </AppShell.Header>
+      <AppShell.Navbar>
+        <Navbar />
+      </AppShell.Navbar>
+
+      <AppShell.Main
+        style={{
+          backgroundColor:
+            colorScheme === "light"
+              ? theme.colors.gray[0]
+              : theme.colors.dark[6],
         }}
-        padding="md"
       >
-        <AppShell.Navbar>
-          <Navbar />
-        </AppShell.Navbar>
+        <Outlet />
+      </AppShell.Main>
 
-        <AppShell.Main>
-          <Outlet />
-        </AppShell.Main>
-
-        <TanStackRouterDevtools position="bottom-right" />
-      </AppShell>
-    </MantineProvider>
+      <TanStackRouterDevtools position="bottom-right" />
+    </AppShell>
   );
 }

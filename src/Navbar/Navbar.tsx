@@ -1,7 +1,7 @@
-import { JSX, ReactNode, useState } from "react";
+import { useState } from "react";
 import { IconHome2, IconUser } from "@tabler/icons-react";
-import { Center, Stack, Tooltip, UnstyledButton } from "@mantine/core";
-import classes from "./Navbar.module.css";
+import { Stack, Tooltip, UnstyledButton } from "@mantine/core";
+import classes from "./Navbar.module.scss";
 import { Link } from "@tanstack/react-router";
 
 interface NavbarLinkProps {
@@ -30,19 +30,9 @@ function NavbarLink({ icon: Icon, label, active, route }: NavbarLinkProps) {
   );
 }
 
-type RouteLink = {
-  icon: ReactNode;
-  label: string;
-  route: string;
-};
 const routeLinks = [
   { icon: IconHome2, label: "Home", route: "/" },
   { icon: IconUser, label: "Beneficiaries", route: "/Beneficiaries" },
-  // { icon: IconGauge, label: "Dashboard" },
-  // { icon: IconDeviceDesktopAnalytics, label: "Analytics" },
-  // { icon: IconCalendarStats, label: "Releases" },
-  // { icon: IconFingerprint, label: "Security" },
-  // { icon: IconSettings, label: "Settings" },
 ];
 
 export function Navbar() {
@@ -54,8 +44,6 @@ export function Navbar() {
 
   return (
     <nav className={classes.navbar}>
-      <Center>B</Center>
-
       <div className={classes.navbarMain}>
         <Stack justify="center" gap={0}>
           {links}
