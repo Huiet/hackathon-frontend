@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Text,
   Button,
@@ -9,10 +9,12 @@ import {
   Table,
   NumberFormatter,
 } from "@mantine/core";
-import { CardContainer } from "../../components";
-import { MockData } from "../../PolicyGrid";
+import { CardContainer } from "../../../components";
+import { MockData } from "../../../PolicyGrid";
+import { PolicyDetailsButton } from "../../../components/PolicyDetailsButton";
+import { usePolicyAsSearchParams } from "../../../hooks/usePolicyAsSearchParams";
 
-export const Route = createFileRoute("/edit-policies/edit-beneficiaries")({
+export const Route = createFileRoute("/edit-policies/edit-beneficiaries/")({
   component: RouteComponent,
 });
 
@@ -25,7 +27,7 @@ function RouteComponent() {
   const { colorScheme } = useMantineColorScheme();
   return (
     <Stack style={{ flexGrow: 1, maxWidth: "80rem" }}>
-      <Title>Edit Beneficiaries</Title>
+      <Title>Beneficiaries</Title>
       {MockData.map((policy) => (
         <CardContainer
           style={{
@@ -36,15 +38,16 @@ function RouteComponent() {
             <Group justify={"space-between"}>
               <Group>
                 <Text>Policy:</Text>
-                <Button
-                  pl={0}
-                  variant={"transparent"}
-                  color={colorScheme === "light" ? "blue.8" : "blue.6"}
-                >
-                  {policy.policyNumber}
-                </Button>
+                <PolicyDetailsButton policyNumber={policy.policyNumber} />
               </Group>
-              <Button variant={"outline"}>Edit This Contract</Button>
+              <Button
+                variant={"outline"}
+                component={Link}
+                to={`/edit-policies/edit-beneficiaries/${policy.policyNumber}`}
+                search={{ policy: policy }}
+              >
+                Edit This Contract
+              </Button>
             </Group>
             <Table striped highlightOnHover withRowBorders={false}>
               <Table.Thead>

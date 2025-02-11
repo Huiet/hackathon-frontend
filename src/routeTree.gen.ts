@@ -8,13 +8,24 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as EditPoliciesIndexImport } from './routes/edit-policies/index'
-import { Route as EditPoliciesEditBeneficiariesImport } from './routes/edit-policies/edit-beneficiaries'
+import { Route as EditPoliciesEditBeneficiariesIndexImport } from './routes/edit-policies/edit-beneficiaries/index'
+import { Route as EditPoliciesEditBeneficiariesLayoutImport } from './routes/edit-policies/edit-beneficiaries/_layout'
+import { Route as EditPoliciesEditBeneficiariesPolicynumberIndexImport } from './routes/edit-policies/edit-beneficiaries/$policy_number/index'
+import { Route as EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexImport } from './routes/edit-policies/edit-beneficiaries/$policy_number/modify_policy/index'
+
+// Create Virtual Routes
+
+const EditPoliciesEditBeneficiariesImport = createFileRoute(
+  '/edit-policies/edit-beneficiaries',
+)()
 
 // Create/Update Routes
 
@@ -30,17 +41,44 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const EditPoliciesEditBeneficiariesRoute =
+  EditPoliciesEditBeneficiariesImport.update({
+    id: '/edit-policies/edit-beneficiaries',
+    path: '/edit-policies/edit-beneficiaries',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 const EditPoliciesIndexRoute = EditPoliciesIndexImport.update({
   id: '/edit-policies/',
   path: '/edit-policies/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const EditPoliciesEditBeneficiariesRoute =
-  EditPoliciesEditBeneficiariesImport.update({
-    id: '/edit-policies/edit-beneficiaries',
-    path: '/edit-policies/edit-beneficiaries',
-    getParentRoute: () => rootRoute,
+const EditPoliciesEditBeneficiariesIndexRoute =
+  EditPoliciesEditBeneficiariesIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => EditPoliciesEditBeneficiariesRoute,
+  } as any)
+
+const EditPoliciesEditBeneficiariesLayoutRoute =
+  EditPoliciesEditBeneficiariesLayoutImport.update({
+    id: '/_layout',
+    getParentRoute: () => EditPoliciesEditBeneficiariesRoute,
+  } as any)
+
+const EditPoliciesEditBeneficiariesPolicynumberIndexRoute =
+  EditPoliciesEditBeneficiariesPolicynumberIndexImport.update({
+    id: '/$policy_number/',
+    path: '/$policy_number/',
+    getParentRoute: () => EditPoliciesEditBeneficiariesRoute,
+  } as any)
+
+const EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute =
+  EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexImport.update({
+    id: '/$policy_number/modify_policy/',
+    path: '/$policy_number/modify_policy/',
+    getParentRoute: () => EditPoliciesEditBeneficiariesRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -61,13 +99,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
-    '/edit-policies/edit-beneficiaries': {
-      id: '/edit-policies/edit-beneficiaries'
-      path: '/edit-policies/edit-beneficiaries'
-      fullPath: '/edit-policies/edit-beneficiaries'
-      preLoaderRoute: typeof EditPoliciesEditBeneficiariesImport
-      parentRoute: typeof rootRoute
-    }
     '/edit-policies/': {
       id: '/edit-policies/'
       path: '/edit-policies'
@@ -75,31 +106,99 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EditPoliciesIndexImport
       parentRoute: typeof rootRoute
     }
+    '/edit-policies/edit-beneficiaries': {
+      id: '/edit-policies/edit-beneficiaries'
+      path: '/edit-policies/edit-beneficiaries'
+      fullPath: '/edit-policies/edit-beneficiaries'
+      preLoaderRoute: typeof EditPoliciesEditBeneficiariesImport
+      parentRoute: typeof rootRoute
+    }
+    '/edit-policies/edit-beneficiaries/_layout': {
+      id: '/edit-policies/edit-beneficiaries/_layout'
+      path: '/edit-policies/edit-beneficiaries'
+      fullPath: '/edit-policies/edit-beneficiaries'
+      preLoaderRoute: typeof EditPoliciesEditBeneficiariesLayoutImport
+      parentRoute: typeof EditPoliciesEditBeneficiariesRoute
+    }
+    '/edit-policies/edit-beneficiaries/': {
+      id: '/edit-policies/edit-beneficiaries/'
+      path: '/'
+      fullPath: '/edit-policies/edit-beneficiaries/'
+      preLoaderRoute: typeof EditPoliciesEditBeneficiariesIndexImport
+      parentRoute: typeof EditPoliciesEditBeneficiariesImport
+    }
+    '/edit-policies/edit-beneficiaries/$policy_number/': {
+      id: '/edit-policies/edit-beneficiaries/$policy_number/'
+      path: '/$policy_number'
+      fullPath: '/edit-policies/edit-beneficiaries/$policy_number'
+      preLoaderRoute: typeof EditPoliciesEditBeneficiariesPolicynumberIndexImport
+      parentRoute: typeof EditPoliciesEditBeneficiariesImport
+    }
+    '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/': {
+      id: '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/'
+      path: '/$policy_number/modify_policy'
+      fullPath: '/edit-policies/edit-beneficiaries/$policy_number/modify_policy'
+      preLoaderRoute: typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexImport
+      parentRoute: typeof EditPoliciesEditBeneficiariesImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface EditPoliciesEditBeneficiariesRouteChildren {
+  EditPoliciesEditBeneficiariesLayoutRoute: typeof EditPoliciesEditBeneficiariesLayoutRoute
+  EditPoliciesEditBeneficiariesIndexRoute: typeof EditPoliciesEditBeneficiariesIndexRoute
+  EditPoliciesEditBeneficiariesPolicynumberIndexRoute: typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
+  EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute: typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
+}
+
+const EditPoliciesEditBeneficiariesRouteChildren: EditPoliciesEditBeneficiariesRouteChildren =
+  {
+    EditPoliciesEditBeneficiariesLayoutRoute:
+      EditPoliciesEditBeneficiariesLayoutRoute,
+    EditPoliciesEditBeneficiariesIndexRoute:
+      EditPoliciesEditBeneficiariesIndexRoute,
+    EditPoliciesEditBeneficiariesPolicynumberIndexRoute:
+      EditPoliciesEditBeneficiariesPolicynumberIndexRoute,
+    EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute:
+      EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute,
+  }
+
+const EditPoliciesEditBeneficiariesRouteWithChildren =
+  EditPoliciesEditBeneficiariesRoute._addFileChildren(
+    EditPoliciesEditBeneficiariesRouteChildren,
+  )
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesRoute
   '/edit-policies': typeof EditPoliciesIndexRoute
+  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesLayoutRoute
+  '/edit-policies/edit-beneficiaries/': typeof EditPoliciesEditBeneficiariesIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number': typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesRoute
   '/edit-policies': typeof EditPoliciesIndexRoute
+  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number': typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesRoute
   '/edit-policies/': typeof EditPoliciesIndexRoute
+  '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesRouteWithChildren
+  '/edit-policies/edit-beneficiaries/_layout': typeof EditPoliciesEditBeneficiariesLayoutRoute
+  '/edit-policies/edit-beneficiaries/': typeof EditPoliciesEditBeneficiariesIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/': typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -107,31 +206,45 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/edit-policies/edit-beneficiaries'
     | '/edit-policies'
+    | '/edit-policies/edit-beneficiaries'
+    | '/edit-policies/edit-beneficiaries/'
+    | '/edit-policies/edit-beneficiaries/$policy_number'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/edit-policies/edit-beneficiaries' | '/edit-policies'
+  to:
+    | '/'
+    | '/about'
+    | '/edit-policies'
+    | '/edit-policies/edit-beneficiaries'
+    | '/edit-policies/edit-beneficiaries/$policy_number'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/edit-policies/edit-beneficiaries'
     | '/edit-policies/'
+    | '/edit-policies/edit-beneficiaries'
+    | '/edit-policies/edit-beneficiaries/_layout'
+    | '/edit-policies/edit-beneficiaries/'
+    | '/edit-policies/edit-beneficiaries/$policy_number/'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  EditPoliciesEditBeneficiariesRoute: typeof EditPoliciesEditBeneficiariesRoute
   EditPoliciesIndexRoute: typeof EditPoliciesIndexRoute
+  EditPoliciesEditBeneficiariesRoute: typeof EditPoliciesEditBeneficiariesRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  EditPoliciesEditBeneficiariesRoute: EditPoliciesEditBeneficiariesRoute,
   EditPoliciesIndexRoute: EditPoliciesIndexRoute,
+  EditPoliciesEditBeneficiariesRoute:
+    EditPoliciesEditBeneficiariesRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -146,8 +259,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/edit-policies/edit-beneficiaries",
-        "/edit-policies/"
+        "/edit-policies/",
+        "/edit-policies/edit-beneficiaries"
       ]
     },
     "/": {
@@ -156,11 +269,33 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.tsx"
     },
-    "/edit-policies/edit-beneficiaries": {
-      "filePath": "edit-policies/edit-beneficiaries.tsx"
-    },
     "/edit-policies/": {
       "filePath": "edit-policies/index.tsx"
+    },
+    "/edit-policies/edit-beneficiaries": {
+      "filePath": "edit-policies/edit-beneficiaries",
+      "children": [
+        "/edit-policies/edit-beneficiaries/_layout",
+        "/edit-policies/edit-beneficiaries/",
+        "/edit-policies/edit-beneficiaries/$policy_number/",
+        "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/"
+      ]
+    },
+    "/edit-policies/edit-beneficiaries/_layout": {
+      "filePath": "edit-policies/edit-beneficiaries/_layout.tsx",
+      "parent": "/edit-policies/edit-beneficiaries"
+    },
+    "/edit-policies/edit-beneficiaries/": {
+      "filePath": "edit-policies/edit-beneficiaries/index.tsx",
+      "parent": "/edit-policies/edit-beneficiaries"
+    },
+    "/edit-policies/edit-beneficiaries/$policy_number/": {
+      "filePath": "edit-policies/edit-beneficiaries/$policy_number/index.tsx",
+      "parent": "/edit-policies/edit-beneficiaries"
+    },
+    "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/": {
+      "filePath": "edit-policies/edit-beneficiaries/$policy_number/modify_policy/index.tsx",
+      "parent": "/edit-policies/edit-beneficiaries"
     }
   }
 }

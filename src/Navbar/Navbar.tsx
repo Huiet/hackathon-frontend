@@ -38,7 +38,7 @@ export function Navbar() {
   const [active, setActive] = useState(2);
 
   const links = routeLinks.map((link, index) => (
-    <NavbarLink {...link} key={link.label} active={index === active} />
+    <NavbarLink key={link.label} {...link} active={index === active} />
   ));
 
   return (
