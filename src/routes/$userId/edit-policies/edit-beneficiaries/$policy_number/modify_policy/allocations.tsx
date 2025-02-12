@@ -90,13 +90,13 @@ function RouteComponent() {
                 <Table.Td>
                   <Switch
                     {...beneficiaryForm.getInputProps(
-                      `beneficiaries.${index}.persterpies`,
+                      `beneficiaries.${index}.perstirpes`,
                       { type: "checkbox" },
                     )}
                     onChange={(e) => {
                       for (let i = 0; i < policy.beneficiaries.length; i++) {
                         beneficiaryForm.setFieldValue(
-                          `beneficiaries.${i}.persterpies`,
+                          `beneficiaries.${i}.perstirpes`,
                           e.target.checked,
                         );
                       }
