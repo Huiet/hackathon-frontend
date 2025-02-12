@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   CardContainer,
   PolicyDetailsButton,
@@ -10,6 +10,8 @@ import { useGetPolicies } from "../../../../../../api/serviice";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { BeneTable } from "../../../../../../components/BeneTable";
+import { IconArrowBack } from "@tabler/icons-react";
 
 export const Route = createFileRoute(
   "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit",
@@ -69,6 +71,9 @@ function RouteComponent() {
   });
 
   const handleSubmit = () => {
+    if (mutation.isSuccess) {
+      return;
+    }
     const benes = policy.beneficiaries;
     const policyForSubmit: Policy[] = [policy];
     for (const policy of filteredPolicies || []) {
@@ -80,20 +85,46 @@ function RouteComponent() {
     <Stack style={{ width: "100%" }}>
       <Group justify={"space-between"}>
         <Title>Verify and Submit</Title>
-        <Button loading={mutation.isPending} onClick={handleSubmit}>
-          Submit Updates
-        </Button>
+        <Group>
+          {mutation.isSuccess && (
+            <Button
+              variant={"transparent"}
+              size={"compact-sm"}
+              component={Link}
+              to={`/${userId}`}
+            >
+              <Group>
+                <IconArrowBack />
+                <Text>Back To Account Home </Text>
+              </Group>
+            </Button>
+          )}
+
+          <Button
+            color={mutation.isSuccess ? "green.7" : "blue.6"}
+            loading={mutation.isPending}
+            onClick={handleSubmit}
+            // disabled={mutation.isSuccess}
+          >
+            {mutation.isSuccess ? "Updates Submitted!" : "Submit Updates"}
+          </Button>
+        </Group>
       </Group>
       <CardContainer>
         <Stack>
-          <Group>
-            <Text>Current Policy:</Text>
-            <PolicyDetailsButton policyNumber={policy.policyNumber} />
-          </Group>
+          <Title order={5}>Policy</Title>
 
-          <div style={{ height: "7rem" }}>
-            <PolicyGrid policies={[policy]} />
-          </div>
+          <Stack>
+            <div
+              style={{
+                height: "7rem",
+              }}
+            >
+              <PolicyGrid policies={[policy]} />
+            </div>
+            <Title order={5}>Beneficiary Data</Title>
+            <BeneTable beneficiaries={policy.beneficiaries} />
+          </Stack>
           {/*<TableOfData data={[policy]} />*/}
         </Stack>
       </CardContainer>
