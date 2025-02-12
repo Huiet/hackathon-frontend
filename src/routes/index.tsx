@@ -20,15 +20,15 @@ export const Route = createFileRoute("/")({
 const users = [
   {
     id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    number: "123456789",
+    name: "Michael Johnson",
+    email: "mjohnson@example.com",
+    number: "555-987-6543",
   },
   {
     id: 2,
-    name: "Jimmy Johns",
-    email: "crazyFastSubs@example.com",
-    number: "145624555",
+    name: "Laura Williams",
+    email: "lwilliams@example.com",
+    number: "555-123-9876",
   },
 ];
 
