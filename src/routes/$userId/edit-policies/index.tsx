@@ -1,6 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { JSX, ReactNode, useState } from "react";
-import { Policy, PolicyGrid } from "../../PolicyGrid";
 import {
   Button,
   Group,
@@ -13,7 +11,7 @@ import {
 import {
   CardContainer,
   CardContainerStyles,
-} from "../../components/CardContainer";
+} from "../../../components/CardContainer";
 import {
   IconCoin,
   IconInfoCircle,
@@ -23,10 +21,10 @@ import {
   IconUsers,
   IconUserSquareRounded,
 } from "@tabler/icons-react";
-import { ValueText } from "../../components/ValueText";
-import { LabelText } from "../../components";
+import { ValueText } from "../../../components/ValueText";
+import { LabelText } from "../../../components";
 
-export const Route = createFileRoute("/edit-policies/")({
+export const Route = createFileRoute("/$userId/edit-policies/")({
   component: EditPolicies,
 });
 
@@ -85,39 +83,39 @@ function EditPolicies() {
     {
       label: "Beneficiary Information",
       icon: IconUsers,
-      route: "/edit-policies/edit-beneficiaries",
+      route: "edit-beneficiaries",
     },
     {
       label: "Annuity Information",
       icon: IconInfoCircle,
-      route: "/edit-policies/edit-beneficiaries",
+      route: "edit-beneficiaries",
     },
     {
       label: "Investments and Values",
       icon: IconMessage2Dollar,
-      route: "/edit-policies/edit-beneficiaries",
+      route: "edit-beneficiaries",
     },
     {
       label: "Authorized Access",
       detailLabel: "POA / TC",
       icon: IconLockAccess,
-      route: "/edit-policies/edit-beneficiaries",
+      route: "edit-beneficiaries",
     },
     {
       label: "Withdrawals",
       detailLabel: "Required Minimum Distribution",
       icon: IconCoin,
-      route: "/edit-policies/edit-beneficiaries",
+      route: "edit-beneficiaries",
     },
     {
       label: "Contact Information",
       icon: IconUserSquareRounded,
-      route: "/edit-policies/edit-beneficiaries",
+      route: "edit-beneficiaries",
     },
     {
       label: "Contributions",
       icon: IconTipJar,
-      route: "/edit-policies/edit-beneficiaries",
+      route: "edit-beneficiaries",
     },
   ];
 

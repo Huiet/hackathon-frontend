@@ -31,7 +31,7 @@ function NavbarLink({ icon: Icon, label, active, route }: NavbarLinkProps) {
 
 const routeLinks = [
   { icon: IconHome2, label: "My Policies", route: "/" },
-  { icon: IconEdit, label: "Edit My Policies", route: "/edit-policies/" },
+  { icon: IconEdit, label: "Edit My Policies", route: "edit-policies/" },
 ];
 
 export function Navbar() {

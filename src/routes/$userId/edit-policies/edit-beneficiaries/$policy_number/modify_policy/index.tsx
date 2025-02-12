@@ -1,25 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Beneficiary, MockData } from "../../../../../PolicyGrid";
-import { CardContainer, PolicyDetailsButton } from "../../../../../components";
+import { Beneficiary, MockData } from "../../../../../../PolicyGrid";
+import {
+  CardContainer,
+  PolicyDetailsButton,
+} from "../../../../../../components";
 import {
   Text,
   Button,
   Group,
   Stack,
   Table,
-  ActionIcon,
   TextInput,
   NumberInput,
   RadioGroup,
   Radio,
 } from "@mantine/core";
 import { useState } from "react";
-import { usePolicyAsSearchParams } from "../../../../../hooks/usePolicyAsSearchParams";
+import { usePolicyAsSearchParams } from "../../../../../../hooks/usePolicyAsSearchParams";
 import { IconPlus, IconRotateClockwise2 } from "@tabler/icons-react";
 import { isNotEmpty, useForm } from "@mantine/form";
 
 export const Route = createFileRoute(
-  "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/",
+  "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/",
 )({
   component: RouteComponent,
 });
@@ -49,7 +51,6 @@ function RouteComponent() {
       value: "",
       email: "",
       address: "",
-      ssn: "",
       phoneNumber: "",
     },
     validate: {
@@ -60,7 +61,6 @@ function RouteComponent() {
       // value: isNotEmpty("Required"),
       email: isNotEmpty("Required"),
       address: isNotEmpty("Required"),
-      ssn: isNotEmpty("Required"),
       phoneNumber: isNotEmpty("Required"),
     },
   });
@@ -163,10 +163,6 @@ function RouteComponent() {
                 {...beneficiaryForm.getInputProps("phoneNumber")}
               />
 
-              <NumberInput
-                label={"SSN Number"}
-                {...beneficiaryForm.getInputProps("ssn")}
-              />
               <RadioGroup {...beneficiaryForm.getInputProps("role")}>
                 <Radio label={"Primayy"} value={"primary"}></Radio>
                 <Radio label={"Contingent"} value={"contingent"}></Radio>

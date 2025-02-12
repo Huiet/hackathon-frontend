@@ -2,7 +2,7 @@ import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { Stack, Title } from '@mantine/core'
 
 export const Route = createFileRoute(
-  '/edit-policies/edit-beneficiaries/_layout',
+  '/$userId/edit-policies/edit-beneficiaries/_layout',
 )({
   component: RouteComponent,
 })

@@ -9,12 +9,13 @@ import {
   Table,
   NumberFormatter,
 } from "@mantine/core";
-import { CardContainer } from "../../../components";
-import { MockData } from "../../../PolicyGrid";
-import { PolicyDetailsButton } from "../../../components/PolicyDetailsButton";
-import { usePolicyAsSearchParams } from "../../../hooks/usePolicyAsSearchParams";
+import { CardContainer } from "../../../../components";
+import { PolicyDetailsButton } from "../../../../components/PolicyDetailsButton";
+import { useGetPolicies } from "../../../../api/serviice";
 
-export const Route = createFileRoute("/edit-policies/edit-beneficiaries/")({
+export const Route = createFileRoute(
+  "/$userId/edit-policies/edit-beneficiaries/",
+)({
   component: RouteComponent,
 });
 
@@ -25,10 +26,14 @@ export function camelCaseToWords(s: string) {
 
 function RouteComponent() {
   const { colorScheme } = useMantineColorScheme();
+
+  const params = Route.useParams();
+  const userId = params.userId;
+  const policies = useGetPolicies(userId);
   return (
     <Stack style={{ flexGrow: 1, maxWidth: "80rem" }}>
       <Title>Beneficiaries</Title>
-      {MockData.map((policy) => (
+      {policies?.data?.map((policy) => (
         <CardContainer
           style={{
             flexGrow: 1,
@@ -43,7 +48,7 @@ function RouteComponent() {
               <Button
                 variant={"outline"}
                 component={Link}
-                to={`/edit-policies/edit-beneficiaries/${policy.policyNumber}`}
+                to={`${policy.policyNumber}`}
                 search={policy}
               >
                 Edit This Contract
@@ -67,7 +72,7 @@ function RouteComponent() {
                     <Table.Td>{camelCaseToWords(beneficiary.name)}</Table.Td>
                     <Table.Td>Yes</Table.Td>
                     <Table.Td>
-                      {beneficiary.value > 100 ? (
+                      {+beneficiary.value > 100 ? (
                         <NumberFormatter
                           value={beneficiary.value}
                           thousandSeparator={true}
