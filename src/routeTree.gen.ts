@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as EditPoliciesIndexImport } from './routes/edit-policies/index'
@@ -30,6 +31,12 @@ const EditPoliciesEditBeneficiariesImport = createFileRoute(
 )()
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AboutRoute = AboutImport.update({
   id: '/about',
@@ -117,6 +124,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/edit-policies/': {
@@ -213,6 +227,7 @@ const EditPoliciesEditBeneficiariesRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/edit-policies': typeof EditPoliciesIndexRoute
   '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesLayoutRoute
   '/edit-policies/edit-beneficiaries/': typeof EditPoliciesEditBeneficiariesIndexRoute
@@ -225,6 +240,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/edit-policies': typeof EditPoliciesIndexRoute
   '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesIndexRoute
   '/edit-policies/edit-beneficiaries/$policy_number': typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
@@ -237,6 +253,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/edit-policies/': typeof EditPoliciesIndexRoute
   '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesRouteWithChildren
   '/edit-policies/edit-beneficiaries/_layout': typeof EditPoliciesEditBeneficiariesLayoutRoute
@@ -252,6 +269,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/login'
     | '/edit-policies'
     | '/edit-policies/edit-beneficiaries'
     | '/edit-policies/edit-beneficiaries/'
@@ -263,6 +281,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/login'
     | '/edit-policies'
     | '/edit-policies/edit-beneficiaries'
     | '/edit-policies/edit-beneficiaries/$policy_number'
@@ -273,6 +292,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/login'
     | '/edit-policies/'
     | '/edit-policies/edit-beneficiaries'
     | '/edit-policies/edit-beneficiaries/_layout'
@@ -287,6 +307,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  LoginRoute: typeof LoginRoute
   EditPoliciesIndexRoute: typeof EditPoliciesIndexRoute
   EditPoliciesEditBeneficiariesRoute: typeof EditPoliciesEditBeneficiariesRouteWithChildren
 }
@@ -294,6 +315,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  LoginRoute: LoginRoute,
   EditPoliciesIndexRoute: EditPoliciesIndexRoute,
   EditPoliciesEditBeneficiariesRoute:
     EditPoliciesEditBeneficiariesRouteWithChildren,
@@ -311,6 +333,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/login",
         "/edit-policies/",
         "/edit-policies/edit-beneficiaries"
       ]
@@ -320,6 +343,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/edit-policies/": {
       "filePath": "edit-policies/index.tsx"
