@@ -9,12 +9,14 @@ import {
   Table,
   NumberFormatter,
 } from "@mantine/core";
-import { CardContainer } from "../../../components";
-import { MockData } from "../../../PolicyGrid";
-import { PolicyDetailsButton } from "../../../components/PolicyDetailsButton";
-import { usePolicyAsSearchParams } from "../../../hooks/usePolicyAsSearchParams";
+import { CardContainer } from "../../../../components";
+import { MockData } from "../../../../PolicyGrid";
+import { PolicyDetailsButton } from "../../../../components/PolicyDetailsButton";
+import { usePolicyAsSearchParams } from "../../../../hooks/usePolicyAsSearchParams";
 
-export const Route = createFileRoute("/edit-policies/edit-beneficiaries/")({
+export const Route = createFileRoute(
+  "/$userId/edit-policies/edit-beneficiaries/",
+)({
   component: RouteComponent,
 });
 
@@ -43,7 +45,7 @@ function RouteComponent() {
               <Button
                 variant={"outline"}
                 component={Link}
-                to={`/edit-policies/edit-beneficiaries/${policy.policyNumber}`}
+                to={`${policy.policyNumber}`}
                 search={policy}
               >
                 Edit This Contract
@@ -67,7 +69,7 @@ function RouteComponent() {
                     <Table.Td>{camelCaseToWords(beneficiary.name)}</Table.Td>
                     <Table.Td>Yes</Table.Td>
                     <Table.Td>
-                      {beneficiary.value > 100 ? (
+                      {+beneficiary.value > 100 ? (
                         <NumberFormatter
                           value={beneficiary.value}
                           thousandSeparator={true}

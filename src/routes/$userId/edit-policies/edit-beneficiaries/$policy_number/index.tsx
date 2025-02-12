@@ -12,12 +12,12 @@ import {
   CardContainer,
   CardContainerStyles,
   PolicyDetailsButton,
-} from "../../../../components";
-import { Policy } from "../../../../PolicyGrid";
-import { usePolicyAsSearchParams } from "../../../../hooks/usePolicyAsSearchParams";
+} from "../../../../../components";
+import { Policy } from "../../../../../PolicyGrid";
+import { usePolicyAsSearchParams } from "../../../../../hooks/usePolicyAsSearchParams";
 
 export const Route = createFileRoute(
-  "/edit-policies/edit-beneficiaries/$policy_number/",
+  "/$userId/edit-policies/edit-beneficiaries/$policy_number/",
 )({
   validateSearch: (search: { policy: Policy }): { policy: Policy } => {
     // validate and parse the search params into a typed state

@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { Beneficiary, MockData, Policy } from "../../../../../PolicyGrid";
-import { usePolicyAsSearchParams } from "../../../../../hooks/usePolicyAsSearchParams";
+import { Beneficiary, MockData, Policy } from "../../../../../../PolicyGrid";
+import { usePolicyAsSearchParams } from "../../../../../../hooks/usePolicyAsSearchParams";
 import {
   Radio,
   Input,
@@ -13,11 +13,11 @@ import {
   Group,
   Button,
 } from "@mantine/core";
-import { CardContainer } from "../../../../../components";
+import { CardContainer } from "../../../../../../components";
 import { camelCaseToWords } from "../../index";
 
 export const Route = createFileRoute(
-  "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations",
+  "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations",
 )({
   component: RouteComponent,
 });
