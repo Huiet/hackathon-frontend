@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { QueryClient } from "@tanstack/react-query";
+import ChatBot from "./components/ChatBot";
 const persister = createSyncStoragePersister({
   storage: window.localStorage,
 });
@@ -71,6 +72,7 @@ export const App = () => {
     >
       <MantineProvider theme={theme}>
         <RouterProvider router={router} />
+        <ChatBot />
       </MantineProvider>
     </PersistQueryClientProvider>
   );
