@@ -1,19 +1,14 @@
 import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Group,
-  NumberFormatter,
-  Stack,
-  Title,
-  Text,
-  Button,
-} from "@mantine/core";
-import { useMemo, useState } from "react";
-import { Policy, PolicyGrid } from "../../PolicyGrid";
+import { Group, NumberFormatter, Stack, Title, Button } from "@mantine/core";
+import { useMemo } from "react";
+import { PolicyGrid } from "../../PolicyGrid";
 import { CardContainer } from "../../components/CardContainer";
 import { LabelText } from "../../components/LabelText";
 import { ValueText } from "../../components/ValueText";
 import { useGetPolicies } from "../../api/serviice";
+import { IncomesChart } from "../../components/incomesChart";
+import { DailyInsight } from "../../components/DailyInsight";
 
 export const Route = createFileRoute("/$userId/")({
   component: HomeComponent,
@@ -23,14 +18,16 @@ function HomeComponent() {
   const params = Route.useParams();
   const userId = params.userId;
   const policies = useGetPolicies(userId);
+  console.log("policies", policies, userId);
   const portfolioValue = useMemo(() => {
-    console.log("policies.data", policies.data);
     let value = 0;
-    // policies?.data?.forEach((policy) => {
-    //   value += policy.accountValue;
-    // });
+    policies?.data?.forEach((policy) => {
+      value += policy.accountValue;
+    });
     return value;
   }, [policies]);
+
+  const owner = policies?.data?.[0]?.owner;
 
   // console.log("mmmm", policies);
   return (
@@ -91,43 +88,74 @@ function HomeComponent() {
           <Group gap={"3rem"} align={"flex-start"}>
             <Stack gap={"2px"}>
               <LabelText label={"Name"} />
-              <ValueText label={"John Doe"} />
+              <ValueText
+                label={`${owner?.firstName || ""} ${owner?.lastName || ""}`}
+              />
             </Stack>
             <Stack gap={"2px"}>
               <LabelText label={"Contact"} />
 
-              <ValueText label={"john.doe@example.com"} />
-              <ValueText label={"+1 (555) 555-5555"} />
+              <ValueText label={`${owner?.email || ""}`} />
+              <ValueText label={`${owner?.phoneNumber}`} />
             </Stack>
             <Stack gap={"2px"}>
               <LabelText label={"Address"} />
-              <ValueText label={"123 Main St\nAnytown, USA"} />
+              <ValueText label={`${owner?.address}`} />
             </Stack>
           </Group>
         </CardContainer>
       </Group>
+      <Group>
+        <Stack
+          gap={"sm"}
+          style={{
+            width: "20rem",
+            flex: 3,
+          }}
+        >
+          <Title order={5}>Projected Income</Title>
+          <IncomesChart />
+        </Stack>
+        <Stack
+          gap={"sm"}
+          style={{
+            flex: 4,
+          }}
+        >
+          <Title order={5}>Daily Insight</Title>
+          <DailyInsight />
+        </Stack>
+      </Group>
       <Group justify={"space-between"}>
         <Title order={4}>Policies</Title>
+        {/*<Tooltip*/}
+        {/*  label={*/}
+        {/*    selectedPolicies.length === 0*/}
+        {/*      ? "Select Policies To Edit Multiple Policies"*/}
+        {/*      : "Edit Policies"*/}
+        {/*  }*/}
+        {/*>*/}
         <Group>
-          {/*<Tooltip*/}
-          {/*  label={*/}
-          {/*    selectedPolicies.length === 0*/}
-          {/*      ? "Select Policies To Edit Multiple Policies"*/}
-          {/*      : "Edit Policies"*/}
-          {/*  }*/}
-          {/*>*/}
           <Button variant={"outline"} component={Link} to={"edit-policies/"}>
             Edit My Policies
           </Button>
-          {/*</Tooltip>*/}
           <Button variant={"outline"}>Contact Advisor</Button>
         </Group>
       </Group>
-      <PolicyGrid
-        policies={policies.data || []}
-        // selectedPolicies={selectedPolicies}
-        // setSelectedPolicies={setSelectedPolicies}
-      />
+      <div
+        style={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "40rem",
+        }}
+      >
+        <PolicyGrid
+          policies={policies.data || []}
+          // selectedPolicies={selectedPolicies}
+          // setSelectedPolicies={setSelectedPolicies}
+        />
+      </div>
     </Stack>
   );
 }

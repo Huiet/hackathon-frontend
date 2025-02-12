@@ -3,7 +3,7 @@ import {
   CardContainer,
   PolicyDetailsButton,
 } from "../../../../../../components";
-import { Table, Stack, Title, Text, Group } from "@mantine/core";
+import { Table, Stack, Title, Text, Group, Button } from "@mantine/core";
 import { Policy, PolicyGrid } from "../../../../../../PolicyGrid";
 import { usePolicyAsSearchParams } from "../../../../../../hooks/usePolicyAsSearchParams";
 import { useGetPolicies } from "../../../../../../api/serviice";
@@ -51,11 +51,15 @@ function RouteComponent() {
   const userId = params.userId;
   const { policy, setPolicy } = usePolicyAsSearchParams(Route.id);
   const policies = useGetPolicies(userId);
+  console.log("aaapolicies", policies);
   const [selectedPolicies, setSelectedPolicies] = useState<Policy[]>([]);
   console.log("ppp");
   return (
-    <Stack>
-      <Title>Verify and Submit</Title>
+    <Stack style={{ width: "100%" }}>
+      <Group justify={"space-between"}>
+        <Title>Verify and Submit</Title>
+        <Button>Submit Updates</Button>
+      </Group>
       <CardContainer>
         <Stack>
           <Group>
@@ -63,20 +67,27 @@ function RouteComponent() {
             <PolicyDetailsButton policyNumber={policy.policyNumber} />
           </Group>
 
-          <PolicyGrid policies={[policy]} />
+          <div style={{ height: "7rem" }}>
+            <PolicyGrid policies={[policy]} />
+          </div>
           {/*<TableOfData data={[policy]} />*/}
         </Stack>
       </CardContainer>
-      <CardContainer>
+      <CardContainer
+        style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+      >
         <Text>
           Would you like to apply these beneficiary changes to any other policy?
         </Text>
-        <PolicyGrid
-          policies={policies.data || []}
-          selectedPolicies={selectedPolicies}
-          setSelectedPolicies={(p) => setSelectedPolicies(p)}
-        />
-        <TableOfData data={[]} />
+
+        <div style={{ flexGrow: 1, minHeight: "15rem" }}>
+          <PolicyGrid
+            policies={policies.data || []}
+            selectedPolicies={selectedPolicies}
+            setSelectedPolicies={(p) => setSelectedPolicies(p)}
+          />
+        </div>
+        {/*<TableOfData data={[]} />*/}
       </CardContainer>
     </Stack>
   );

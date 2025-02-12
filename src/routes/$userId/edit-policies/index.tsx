@@ -44,7 +44,7 @@ const EditCard = ({
 }: EditCardProps) => {
   return (
     <Button
-      variant={"outline"}
+      variant={colorScheme === "light" ? "outline" : "filled"}
       component={Link}
       to={route}
       color={colorScheme === "light" ? "blue.8" : "blue.6"}
@@ -57,6 +57,7 @@ const EditCard = ({
         ...CardContainerStyles(colorScheme),
         width: "20rem",
         height: "6rem",
+        backgroundColor: colorScheme === "light" ? "white" : "#192937", //theme.colors.dark[5],
       }}
     >
       <Group

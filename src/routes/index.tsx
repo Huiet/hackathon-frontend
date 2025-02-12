@@ -26,21 +26,9 @@ const users = [
   },
   {
     id: 2,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    number: "123456789",
-  },
-  {
-    id: 3,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    number: "123456789",
-  },
-  {
-    id: 4,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    number: "123456789",
+    name: "Jimmy Johns",
+    email: "crazyFastSubs@example.com",
+    number: "145624555",
   },
 ];
 
@@ -52,6 +40,7 @@ function RouteComponent() {
       <Group align={"flex-start"}>
         {users.map((user) => (
           <Button
+            key={user.id}
             style={{
               height: "6rem",
             }}

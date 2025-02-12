@@ -3,11 +3,13 @@ import { Policy } from "../PolicyGrid";
 
 export function useGetPolicies(userId: string | number) {
   return useQuery({
-    queryKey: ["policies" + userId],
+    queryKey: [`policies_${userId}`],
     queryFn: async (): Promise<Array<Policy>> => {
+      console.log("userId", userId);
       const response = await fetch(
         `https://2205if6vs1.execute-api.us-east-1.amazonaws.com/dev/getBene?customerId=00${userId}`,
       );
+      console.log("what cmon");
       return await response.json();
     },
   });
@@ -47,21 +49,27 @@ export interface ChatBotResponse {
   conversation_history: { role: "user" | "assistant"; content: string }[];
 }
 
-export async function useChatBotResponse(userMessage: string, conversationHistory: any[]): Promise<ChatBotResponse> {
+export async function useChatBotResponse(
+  userMessage: string,
+  conversationHistory: any[],
+): Promise<ChatBotResponse> {
   const payload = {
     user_question: userMessage,
     conversation_history: conversationHistory,
   };
 
-  const response = await fetch("https://b0ma0042q3.execute-api.us-east-1.amazonaws.com/Dev/ai", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await fetch(
+    "https://b0ma0042q3.execute-api.us-east-1.amazonaws.com/Dev/ai",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        body: JSON.stringify(payload), // Ensure the body is properly stringified
+      }),
     },
-    body: JSON.stringify({
-      body: JSON.stringify(payload), // Ensure the body is properly stringified
-    }),
-  });
+  );
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -72,7 +80,10 @@ export async function useChatBotResponse(userMessage: string, conversationHistor
   console.log("Response Data:", responseData);
 
   // Parse the `body` field if it's a string
-  const parsedBody = typeof responseData.body === "string" ? JSON.parse(responseData.body) : responseData;
+  const parsedBody =
+    typeof responseData.body === "string"
+      ? JSON.parse(responseData.body)
+      : responseData;
   console.log("Parsed Body:", parsedBody);
 
   return {

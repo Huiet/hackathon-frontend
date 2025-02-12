@@ -5,6 +5,7 @@ import {
   PolicyDetailsButton,
 } from "../../../../../../components";
 import {
+  Title,
   Text,
   Button,
   Group,
@@ -14,11 +15,13 @@ import {
   NumberInput,
   RadioGroup,
   Radio,
+  Center,
 } from "@mantine/core";
 import { useState } from "react";
 import { usePolicyAsSearchParams } from "../../../../../../hooks/usePolicyAsSearchParams";
 import { IconPlus, IconRotateClockwise2 } from "@tabler/icons-react";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { BeneficiaryForm } from "../../../../../../components/BeneficiaryForm";
 
 export const Route = createFileRoute(
   "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/",
@@ -44,20 +47,20 @@ function RouteComponent() {
 
   const beneficiaryForm = useForm<Partial<Beneficiary>>({
     initialValues: {
-      name: "",
-      role: "",
+      beneName: "",
+      beneRole: "primary",
       relationship: "",
       // type: "",
-      value: "",
+      beneValue: "",
       email: "",
       address: "",
       phoneNumber: "",
     },
     validate: {
-      name: isNotEmpty("Required"),
+      beneName: isNotEmpty("Required"),
       // role: isNotEmpty("Required"),
       relationship: isNotEmpty("Required"),
-      // type: isNotEmpty("Required"),
+      // type: isNotEmpty("equired"),
       // value: isNotEmpty("Required"),
       email: isNotEmpty("Required"),
       address: isNotEmpty("Required"),
@@ -67,6 +70,7 @@ function RouteComponent() {
 
   return (
     <Stack>
+      <Title>Add / Delete Beneficiaries</Title>
       <CardContainer style={{ height: "fit-content", width: "100%" }}>
         <Stack>
           <Group justify={"space-between"}>
@@ -89,43 +93,53 @@ function RouteComponent() {
               Add Beneficiary
             </Button>
           </Group>
-          <Table
-            // striped
-            // withTableBorder={true}
-            highlightOnHover
-            withRowBorders={false}
-            style={{ width: "40rem" }}
-          >
-            <Table.Tbody>
-              {policy.beneficiaries?.map((bene: Beneficiary) => (
-                <Table.Tr key={bene.name}>
-                  <Table.Td>
-                    {bene.role === "primary"
-                      ? "Primary Beneficiary"
-                      : "Contingent Beneficiary"}
-                  </Table.Td>
-                  <Table.Td>{bene.name}</Table.Td>
-                  {/*<Table.Td>{bene.value}</Table.Td>*/}
-                  <Table.Td>
-                    <Button
-                      color={"red.6"}
-                      size={"compact-md"}
-                      onClick={() => {
-                        setPolicy({
-                          ...policy,
-                          beneficiaries: policy.beneficiaries?.filter(
-                            (x) => x.name !== bene.name,
-                          ),
-                        });
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </Table.Td>
-                </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
+          <div style={{ minWidth: "40rem" }}>
+            {policy.beneficiaries?.length > 0 ? (
+              <Table
+                striped
+                // withTableBorder={true}
+                highlightOnHover
+                withRowBorders={false}
+                style={{ width: "40rem" }}
+              >
+                <Table.Tbody>
+                  {policy.beneficiaries?.map((bene: Beneficiary) => (
+                    <Table.Tr key={bene.beneName}>
+                      <Table.Td>
+                        {bene.beneRole === "primary"
+                          ? "Primary Beneficiary"
+                          : "Contingent Beneficiary"}
+                      </Table.Td>
+                      <Table.Td>{bene.beneName}</Table.Td>
+                      {/*<Table.Td>{bene.value}</Table.Td>*/}
+                      <Table.Td>
+                        <Button
+                          color={"red.6"}
+                          size={"compact-md"}
+                          onClick={() => {
+                            setPolicy({
+                              ...policy,
+                              beneficiaries: policy.beneficiaries?.filter(
+                                (x) => x.beneName !== bene.beneName,
+                              ),
+                            });
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
+              </Table>
+            ) : (
+              <Center>
+                <Title order={4} c={"dimmed"}>
+                  Please Add Beneficiary
+                </Title>
+              </Center>
+            )}
+          </div>
           <Group justify={"space-between"}>
             <Button
               leftSection={<IconRotateClockwise2 />}
@@ -135,7 +149,12 @@ function RouteComponent() {
             >
               Undo Changes
             </Button>
-            <Button component={Link} to="allocations" search={policy}>
+            <Button
+              disabled={addingBenificiary}
+              component={Link}
+              to="allocations"
+              search={policy}
+            >
               Next
             </Button>
           </Group>
@@ -143,71 +162,29 @@ function RouteComponent() {
       </CardContainer>
 
       {addingBenificiary && (
-        <CardContainer style={{ height: "fit-content", width: "100%" }}>
-          <form>
-            <Group>
-              <TextInput
-                label={"Name"}
-                {...beneficiaryForm.getInputProps("name")}
-              />
-              <TextInput
-                label={"Email"}
-                {...beneficiaryForm.getInputProps("email")}
-              />
-              <TextInput
-                label={"Address"}
-                {...beneficiaryForm.getInputProps("address")}
-              />
-              <NumberInput
-                label={"Phone Number"}
-                {...beneficiaryForm.getInputProps("phoneNumber")}
-              />
-
-              <RadioGroup {...beneficiaryForm.getInputProps("role")}>
-                <Radio label={"Primayy"} value={"primary"}></Radio>
-                <Radio label={"Contingent"} value={"contingent"}></Radio>
-              </RadioGroup>
-
-              <TextInput
-                label={"Relationship"}
-                {...beneficiaryForm.getInputProps("relationship")}
-              />
-            </Group>
-            <Group mt={"md"} justify={"flex-end"}>
-              <Button
-                color={"red.5"}
-                onClick={() => {
-                  beneficiaryForm.reset();
+        <Stack>
+          <Title order={5}>Add New Beneficiary</Title>
+          <CardContainer style={{ height: "fit-content", width: "100%" }}>
+            <BeneficiaryForm
+              close={() => setAddingBenificiary(false)}
+              onSubmit={(beneficiary: Beneficiary) => {
+                const valid = beneficiaryForm.isValid();
+                console.log("valid", valid);
+                if (valid) {
+                  const foo = {
+                    ...policy,
+                    beneficiaries: [...policy.beneficiaries, beneficiaryForm],
+                  };
+                  setPolicy(foo);
                   setAddingBenificiary(false);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  const valid = beneficiaryForm.isValid();
-                  console.log("valid", valid);
-                  if (valid) {
-                    const foo = {
-                      ...policy,
-                      beneficiaries: [
-                        ...policy.beneficiaries,
-                        beneficiaryForm.values,
-                      ],
-                    };
-                    setPolicy(foo);
-                    setAddingBenificiary(false);
-                  } else {
-                    beneficiaryForm.validate();
-                    console.log(beneficiaryForm.errors);
-                  }
-                }}
-              >
-                Submit
-              </Button>
-            </Group>
-          </form>
-        </CardContainer>
+                } else {
+                  beneficiaryForm.validate();
+                  console.log(beneficiaryForm.errors);
+                }
+              }}
+            />
+          </CardContainer>
+        </Stack>
       )}
     </Stack>
   );

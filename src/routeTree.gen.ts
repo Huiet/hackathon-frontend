@@ -22,6 +22,7 @@ import { Route as UserIdEditPoliciesEditBeneficiariesLayoutImport } from './rout
 import { Route as UserIdEditPoliciesEditBeneficiariesPolicynumberIndexImport } from './routes/$userId/edit-policies/edit-beneficiaries/$policy_number/index'
 import { Route as UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexImport } from './routes/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/index'
 import { Route as UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitImport } from './routes/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
+import { Route as UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryImport } from './routes/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary'
 import { Route as UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsImport } from './routes/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
 
 // Create Virtual Routes
@@ -97,6 +98,15 @@ const UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmit
     {
       id: '/$policy_number/modify_policy/verify-and-submit',
       path: '/$policy_number/modify_policy/verify-and-submit',
+      getParentRoute: () => UserIdEditPoliciesEditBeneficiariesRoute,
+    } as any,
+  )
+
+const UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryRoute =
+  UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryImport.update(
+    {
+      id: '/$policy_number/modify_policy/edit-beneficiary',
+      path: '/$policy_number/modify_policy/edit-beneficiary',
       getParentRoute: () => UserIdEditPoliciesEditBeneficiariesRoute,
     } as any,
   )
@@ -177,6 +187,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsImport
       parentRoute: typeof UserIdEditPoliciesEditBeneficiariesImport
     }
+    '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary': {
+      id: '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary'
+      path: '/$policy_number/modify_policy/edit-beneficiary'
+      fullPath: '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary'
+      preLoaderRoute: typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryImport
+      parentRoute: typeof UserIdEditPoliciesEditBeneficiariesImport
+    }
     '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit': {
       id: '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
       path: '/$policy_number/modify_policy/verify-and-submit'
@@ -201,6 +218,7 @@ interface UserIdEditPoliciesEditBeneficiariesRouteChildren {
   UserIdEditPoliciesEditBeneficiariesIndexRoute: typeof UserIdEditPoliciesEditBeneficiariesIndexRoute
   UserIdEditPoliciesEditBeneficiariesPolicynumberIndexRoute: typeof UserIdEditPoliciesEditBeneficiariesPolicynumberIndexRoute
   UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute: typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute
+  UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryRoute: typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryRoute
   UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute: typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute
   UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute: typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
@@ -215,6 +233,8 @@ const UserIdEditPoliciesEditBeneficiariesRouteChildren: UserIdEditPoliciesEditBe
       UserIdEditPoliciesEditBeneficiariesPolicynumberIndexRoute,
     UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute:
       UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute,
+    UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryRoute:
+      UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryRoute,
     UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute:
       UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute,
     UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute:
@@ -235,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/$userId/edit-policies/edit-beneficiaries/': typeof UserIdEditPoliciesEditBeneficiariesIndexRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberIndexRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute
+  '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
@@ -247,6 +268,7 @@ export interface FileRoutesByTo {
   '/$userId/edit-policies/edit-beneficiaries': typeof UserIdEditPoliciesEditBeneficiariesIndexRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberIndexRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute
+  '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
@@ -262,6 +284,7 @@ export interface FileRoutesById {
   '/$userId/edit-policies/edit-beneficiaries/': typeof UserIdEditPoliciesEditBeneficiariesIndexRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberIndexRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute
+  '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyEditBeneficiaryRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute
   '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/': typeof UserIdEditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
@@ -277,6 +300,7 @@ export interface FileRouteTypes {
     | '/$userId/edit-policies/edit-beneficiaries/'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
+    | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy'
   fileRoutesByTo: FileRoutesByTo
@@ -288,6 +312,7 @@ export interface FileRouteTypes {
     | '/$userId/edit-policies/edit-beneficiaries'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
+    | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy'
   id:
@@ -301,6 +326,7 @@ export interface FileRouteTypes {
     | '/$userId/edit-policies/edit-beneficiaries/'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
+    | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
     | '/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/'
   fileRoutesById: FileRoutesById
@@ -359,6 +385,7 @@ export const routeTree = rootRoute
         "/$userId/edit-policies/edit-beneficiaries/",
         "/$userId/edit-policies/edit-beneficiaries/$policy_number/",
         "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations",
+        "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary",
         "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit",
         "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/"
       ]
@@ -377,6 +404,10 @@ export const routeTree = rootRoute
     },
     "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations": {
       "filePath": "$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations.tsx",
+      "parent": "/$userId/edit-policies/edit-beneficiaries"
+    },
+    "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary": {
+      "filePath": "$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/edit-beneficiary.tsx",
       "parent": "/$userId/edit-policies/edit-beneficiaries"
     },
     "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit": {

@@ -20,8 +20,8 @@ export const Route = createFileRoute(
 });
 
 export function camelCaseToWords(s: string) {
-  const result = s.replace(/([A-Z])/g, " $1");
-  return result.charAt(0).toUpperCase() + result.slice(1);
+  const result = s?.replace(/([A-Z])/g, " $1");
+  return result?.charAt(0)?.toUpperCase() + result?.slice(1);
 }
 
 function RouteComponent() {
@@ -34,11 +34,7 @@ function RouteComponent() {
     <Stack style={{ flexGrow: 1, maxWidth: "80rem" }}>
       <Title>Beneficiaries</Title>
       {policies?.data?.map((policy) => (
-        <CardContainer
-          style={{
-            flexGrow: 1,
-          }}
-        >
+        <CardContainer>
           <Stack>
             <Group justify={"space-between"}>
               <Group>
@@ -68,21 +64,25 @@ function RouteComponent() {
               </Table.Thead>
               <Table.Tbody>
                 {policy.beneficiaries.map((beneficiary) => (
-                  <Table.Tr key={beneficiary.name}>
-                    <Table.Td>{camelCaseToWords(beneficiary.name)}</Table.Td>
+                  <Table.Tr key={beneficiary.beneName}>
+                    <Table.Td>
+                      {camelCaseToWords(beneficiary.beneName)}
+                    </Table.Td>
                     <Table.Td>Yes</Table.Td>
                     <Table.Td>
-                      {+beneficiary.value > 100 ? (
+                      {+beneficiary.beneValue > 100 ? (
                         <NumberFormatter
-                          value={beneficiary.value}
+                          value={beneficiary.beneValue}
                           thousandSeparator={true}
                           prefix={"$"}
                         />
                       ) : (
-                        `${beneficiary.value}%`
+                        `${beneficiary.beneValue}%`
                       )}
                     </Table.Td>
-                    <Table.Td>{camelCaseToWords(beneficiary.role)}</Table.Td>
+                    <Table.Td>
+                      {camelCaseToWords(beneficiary.beneRole)}
+                    </Table.Td>
                     <Table.Td>
                       {camelCaseToWords(beneficiary.relationship)}
                     </Table.Td>

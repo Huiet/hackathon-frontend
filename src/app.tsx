@@ -66,14 +66,16 @@ const queryClient = new QueryClient({
 
 export const App = () => {
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister }}
-    >
-      <MantineProvider theme={theme}>
-        <RouterProvider router={router} />
-        <ChatBot />
-      </MantineProvider>
-    </PersistQueryClientProvider>
+    <div id={"root"}>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
+        <MantineProvider theme={theme}>
+          <RouterProvider router={router} />
+          <ChatBot />
+        </MantineProvider>
+      </PersistQueryClientProvider>
+    </div>
   );
 };

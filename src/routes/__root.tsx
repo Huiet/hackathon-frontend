@@ -17,6 +17,8 @@ export const Route = createRootRoute({
 function RootComponent() {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
+  const params = Route.useParams();
+  const userId = (params as any).userId;
   console.log("scheme,", colorScheme);
 
   return (
@@ -33,7 +35,7 @@ function RootComponent() {
         <div></div>
       </AppShell.Header>
       <AppShell.Navbar>
-        <Navbar />
+        <Navbar userId={userId} />
       </AppShell.Navbar>
 
       <AppShell.Main

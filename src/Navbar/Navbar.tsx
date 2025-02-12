@@ -11,13 +11,14 @@ interface NavbarLinkProps {
   route: string;
 }
 
-function NavbarLink({ icon: Icon, label, active, route }: NavbarLinkProps) {
+function NavbarLink({ icon: Icon, label, route }: NavbarLinkProps) {
+  const exact = !route.includes("edit-policies");
   return (
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton
         component={Link}
         to={route}
-        // activeOptions={{ exact: true }}
+        activeOptions={{ exact }}
         className={classes.link}
         activeProps={{
           className: classes.link_active,
@@ -30,15 +31,24 @@ function NavbarLink({ icon: Icon, label, active, route }: NavbarLinkProps) {
 }
 
 const routeLinks = [
-  { icon: IconHome2, label: "My Policies", route: "/" },
-  { icon: IconEdit, label: "Edit My Policies", route: "edit-policies/" },
+  { icon: IconHome2, label: "Users", route: "/" },
+  { icon: IconUser, label: "User Policies", route: "/$userId" },
+  {
+    icon: IconEdit,
+    label: "Edit My Policies",
+    route: "/$userId/edit-policies/",
+  },
 ];
 
-export function Navbar() {
-  const [active, setActive] = useState(2);
-
-  const links = routeLinks.map((link, index) => (
-    <NavbarLink key={link.label} {...link} active={index === active} />
+export function Navbar({ userId }: { userId: string | number | null }) {
+  // const params = Route.useParams();
+  // const userId = params.userId;
+  const filteredLinks =
+    userId != null
+      ? routeLinks
+      : routeLinks.filter((link) => link.label === "Users");
+  const links = filteredLinks.map((link, index) => (
+    <NavbarLink key={link.label} {...link} />
   ));
 
   return (
