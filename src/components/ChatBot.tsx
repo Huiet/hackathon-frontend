@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Button, Drawer, Textarea, Stack, Text, ScrollArea } from "@mantine/core";
-import { useChatBotResponse } from "../api/serviice"; // Your async function for fetching chatbot responses
+import { Drawer, Textarea, Stack, Text, ScrollArea, Tooltip, Button } from "@mantine/core";
+import { useChatBotResponse } from "../api/serviice";
+import irineGif from "../assets/irine.gif";
 
 const ChatBot: React.FC = () => {
     const [opened, setOpened] = useState<boolean>(false);
@@ -13,37 +14,42 @@ const ChatBot: React.FC = () => {
         if (!input.trim()) return;
 
         const userMessage = { role: "user", content: input };
-        setMessages((prev) => [...prev, userMessage]); // Add user's message to the chat
+        setMessages((prev) => [...prev, userMessage]);
         setInput("");
 
-        // Add "Bot is typing..." message temporarily
-        setMessages((prev) => [
-            ...prev,
-            { role: "assistant", content: "Bot is typing..." },
-        ]);
-
+        setMessages((prev) => [...prev, { role: "assistant", content: "IRIne is thinking..." }]);
         setLoading(true);
         setError(null);
 
         try {
-            // Call the async function to fetch the chatbot response
             const data = await useChatBotResponse(input, messages);
-
-            // Remove "Bot is typing..." and append the actual response
             setMessages((prev) => [
-                ...prev.slice(0, -1), // Remove "Bot is typing..."
-                { role: "assistant", content: data.reply } // Append the bot's actual response
+                ...prev.slice(0, -1), // Remove "IRIne is thinking..."
+                { role: "assistant", content: data.reply }
             ]);
         } catch (err) {
             console.error("Error fetching response:", err);
             setError("Oops! Something went wrong. Please try again.");
             setMessages((prev) => [
-                ...prev.slice(0, -1), // Remove "Bot is typing..."
+                ...prev.slice(0, -1),
                 { role: "assistant", content: "Oops! Something went wrong. Please try again." },
             ]);
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
+
+    const clearChat = () => {
+        setMessages([]);
+        setInput("");
+        setError(null);
     };
 
     return (
@@ -58,6 +64,11 @@ const ChatBot: React.FC = () => {
             >
                 <ScrollArea style={{ height: "400px" }}>
                     <Stack spacing="xs">
+                        {messages.length === 0 && (
+                            <Text color="gray" align="center">
+                                Start a conversation with IRIne!
+                            </Text>
+                        )}
                         {messages.map((msg, index) => (
                             <Text
                                 key={index}
@@ -84,25 +95,46 @@ const ChatBot: React.FC = () => {
                 <Textarea
                     value={input}
                     onChange={(e) => setInput(e.currentTarget.value)}
-                    placeholder="Type your message..."
+                    onKeyPress={handleKeyPress}
+                    placeholder="Type your message and press Enter..."
                     minRows={1}
                     autosize
+                    disabled={loading}
                 />
-                <Button onClick={handleSendMessage} disabled={loading} fullWidth style={{ marginTop: 10 }}>
-                    {loading ? "Sending..." : "Send"}
+                <Button onClick={clearChat} fullWidth variant="outline" style={{ marginTop: 10 }}>
+                    Clear Chat
                 </Button>
             </Drawer>
-            <Button
-                style={{
-                    position: "fixed",
-                    bottom: 20,
-                    right: 20,
-                    zIndex: 1000,
-                }}
-                onClick={() => setOpened((prev) => !prev)}
-            >
-                {opened ? "Close Chat" : "Chat with us"}
-            </Button>
+            <Tooltip label="Ask IRIne!" position="left" withArrow>
+                <button
+                    style={{
+                        position: "fixed",
+                        bottom: 20,
+                        right: opened ? "16%" : 20,
+                        transform: opened ? "translate(50%, 0)" : "none",
+                        zIndex: 1000,
+                        padding: 0,
+                        background: "none",
+                        border: "none",
+                        width: opened ? 110 : 60,
+                        height: opened ? 110 : 60,
+                        transition: "all 0.3s ease",
+                        cursor: "pointer",
+                    }}
+                    onClick={() => setOpened((prev) => !prev)}
+                >
+                    <img
+                        src={irineGif}
+                        alt="Chat Icon"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                        }}
+                    />
+                </button>
+            </Tooltip>
         </>
     );
 };
