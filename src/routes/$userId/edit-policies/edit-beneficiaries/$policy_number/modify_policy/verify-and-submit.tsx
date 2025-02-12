@@ -97,7 +97,7 @@ function RouteComponent() {
           {/*<TableOfData data={[policy]} />*/}
         </Stack>
       </CardContainer>
-      {filteredPolicies.length > 0 && (
+      {(filteredPolicies?.length || 0) > 0 && (
         <CardContainer
           style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
         >
