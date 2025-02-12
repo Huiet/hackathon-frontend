@@ -44,7 +44,7 @@ function RouteComponent() {
                 variant={"outline"}
                 component={Link}
                 to={`/edit-policies/edit-beneficiaries/${policy.policyNumber}`}
-                search={{ policy: policy }}
+                search={policy}
               >
                 Edit This Contract
               </Button>

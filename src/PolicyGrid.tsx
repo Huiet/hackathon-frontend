@@ -35,7 +35,12 @@ export type Beneficiary = {
   relationship: string;
   name: string;
   type: string; //percentage/dollar
-  value: number; //	(could be percentage, could be dollar)
+  value: number | ""; //	(could be percentage, could be dollar)
+
+  email: string;
+  address: string;
+  ssn: number | "";
+  phoneNumber: number | "";
 };
 
 export type Policy = {

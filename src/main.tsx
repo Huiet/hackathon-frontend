@@ -10,6 +10,7 @@ import {
   createTheme,
   Input,
   MantineProvider,
+  NumberInput,
   Title,
 } from "@mantine/core";
 
@@ -33,6 +34,11 @@ const rootElement = document.getElementById("app")!;
 const theme = createTheme({
   primaryColor: "blue",
   components: {
+    NumberInput: NumberInput.extend({
+      defaultProps: {
+        hideControls: true,
+      },
+    }),
     Title: Title.extend({
       defaultProps: {
         order: 4,

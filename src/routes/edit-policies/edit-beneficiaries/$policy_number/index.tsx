@@ -50,13 +50,14 @@ function EditPolicyBeneficiaries() {
     },
   ];
 
+  console.log("params", params);
   return (
     <Stack>
       <Title>Beneficiaries</Title>
       <CardContainer style={{ width: "100%" }}>
         <Group>
           <Text>Policy:</Text>
-          <PolicyDetailsButton policyNumber={params.policy_number} />
+          <PolicyDetailsButton policyNumber={params?.policy_number} />
         </Group>
 
         <Space h={"sm"} />
@@ -71,6 +72,7 @@ function EditPolicyBeneficiaries() {
               variant={"outline"}
               component={Link}
               to={link.route}
+              search={foo.policy}
               color={colorScheme === "light" ? "blue.8" : "blue.6"}
               styles={{
                 inner: {
