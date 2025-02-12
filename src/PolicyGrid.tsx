@@ -344,7 +344,7 @@ export const PolicyGrid = ({
           : themeQuartz.withPart(colorSchemeDark)
       }
       columnDefs={colDefsToUse}
-      rowData={MockData}
+      rowData={policies}
       defaultColDef={defaultColDef}
       rowSelection={rowSelection}
       selectionColumnDef={selectionColumnDef}

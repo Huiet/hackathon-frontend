@@ -4,9 +4,10 @@ import {
   PolicyDetailsButton,
 } from "../../../../../../components";
 import { Table, Stack, Title, Text, Group } from "@mantine/core";
-import { Policy } from "../../../../../../PolicyGrid";
+import { Policy, PolicyGrid } from "../../../../../../PolicyGrid";
 import { usePolicyAsSearchParams } from "../../../../../../hooks/usePolicyAsSearchParams";
 import { useGetPolicies } from "../../../../../../api/serviice";
+import { useState } from "react";
 
 export const Route = createFileRoute(
   "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit",
@@ -50,6 +51,7 @@ function RouteComponent() {
   const userId = params.userId;
   const { policy, setPolicy } = usePolicyAsSearchParams(Route.id);
   const policies = useGetPolicies(userId);
+  const [selectedPolicies, setSelectedPolicies] = useState<Policy[]>([]);
   console.log("ppp");
   return (
     <Stack>
@@ -57,16 +59,23 @@ function RouteComponent() {
       <CardContainer>
         <Stack>
           <Group>
-            <Text>Policy:</Text>
+            <Text>Current Policy:</Text>
             <PolicyDetailsButton policyNumber={policy.policyNumber} />
           </Group>
-          <TableOfData data={[policy]} />
+
+          <PolicyGrid policies={[policy]} />
+          {/*<TableOfData data={[policy]} />*/}
         </Stack>
       </CardContainer>
       <CardContainer>
         <Text>
           Would you like to apply these beneficiary changes to any other policy?
         </Text>
+        <PolicyGrid
+          policies={policies.data || []}
+          selectedPolicies={selectedPolicies}
+          setSelectedPolicies={(p) => setSelectedPolicies(p)}
+        />
         <TableOfData data={[]} />
       </CardContainer>
     </Stack>

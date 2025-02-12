@@ -8,7 +8,7 @@ import {
   Text,
   Button,
 } from "@mantine/core";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Policy, PolicyGrid } from "../../PolicyGrid";
 import { CardContainer } from "../../components/CardContainer";
 import { LabelText } from "../../components/LabelText";
@@ -23,6 +23,15 @@ function HomeComponent() {
   const params = Route.useParams();
   const userId = params.userId;
   const policies = useGetPolicies(userId);
+  const portfolioValue = useMemo(() => {
+    console.log("policies.data", policies.data);
+    let value = 0;
+    // policies?.data?.forEach((policy) => {
+    //   value += policy.accountValue;
+    // });
+    return value;
+  }, [policies]);
+
   // console.log("mmmm", policies);
   return (
     <Stack
@@ -70,7 +79,7 @@ function HomeComponent() {
             <Stack gap={"2px"}>
               <LabelText label={"Portfolio Value"} />
               <NumberFormatter
-                value={123456789}
+                value={portfolioValue}
                 thousandSeparator={true}
                 prefix={"$"}
               />
@@ -115,7 +124,7 @@ function HomeComponent() {
         </Group>
       </Group>
       <PolicyGrid
-        policies={policies}
+        policies={policies.data || []}
         // selectedPolicies={selectedPolicies}
         // setSelectedPolicies={setSelectedPolicies}
       />
