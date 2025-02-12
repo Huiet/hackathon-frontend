@@ -20,8 +20,8 @@ export const Route = createFileRoute(
 });
 
 export function camelCaseToWords(s: string) {
-  const result = s.replace(/([A-Z])/g, " $1");
-  return result.charAt(0).toUpperCase() + result.slice(1);
+  const result = s?.replace(/([A-Z])/g, " $1");
+  return result?.charAt(0)?.toUpperCase() + result?.slice(1);
 }
 
 function RouteComponent() {

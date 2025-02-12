@@ -132,18 +132,17 @@ function HomeComponent() {
       </Group>
       <Group justify={"space-between"}>
         <Title order={4}>Policies</Title>
+        {/*<Tooltip*/}
+        {/*  label={*/}
+        {/*    selectedPolicies.length === 0*/}
+        {/*      ? "Select Policies To Edit Multiple Policies"*/}
+        {/*      : "Edit Policies"*/}
+        {/*  }*/}
+        {/*>*/}
         <Group>
-          {/*<Tooltip*/}
-          {/*  label={*/}
-          {/*    selectedPolicies.length === 0*/}
-          {/*      ? "Select Policies To Edit Multiple Policies"*/}
-          {/*      : "Edit Policies"*/}
-          {/*  }*/}
-          {/*>*/}
           <Button variant={"outline"} component={Link} to={"edit-policies/"}>
             Edit My Policies
           </Button>
-          {/*</Tooltip>*/}
           <Button variant={"outline"}>Contact Advisor</Button>
         </Group>
       </Group>

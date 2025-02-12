@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { QueryClient } from "@tanstack/react-query";
+import ChatBot from "./components/ChatBot";
 const persister = createSyncStoragePersister({
   storage: window.localStorage,
 });
@@ -65,13 +66,16 @@ const queryClient = new QueryClient({
 
 export const App = () => {
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister }}
-    >
-      <MantineProvider theme={theme}>
-        <RouterProvider router={router} />
-      </MantineProvider>
-    </PersistQueryClientProvider>
+    <div id={"root"}>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
+        <MantineProvider theme={theme}>
+          <RouterProvider router={router} />
+          <ChatBot />
+        </MantineProvider>
+      </PersistQueryClientProvider>
+    </div>
   );
 };

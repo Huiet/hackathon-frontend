@@ -97,7 +97,7 @@ export const IncomesChart = () => {
       {/*  curveType={"natural"}*/}
       {/*/>*/}
 
-      <AreaChart
+      <LineChart
         h={150}
         withLegend
         data={chartData}

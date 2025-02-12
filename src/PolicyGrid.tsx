@@ -62,7 +62,6 @@ export type Policy = {
     zip: number;
     phoneNumber: string;
   };
-  distributionType: string; //(dollar/percentage or persturbes)
   beneficiaries: Beneficiary[];
 };
 
@@ -86,7 +85,6 @@ export const MockData: Policy[] = [
       zip: 62701,
       phoneNumber: "555-1234",
     },
-    distributionType: "percentage",
     beneficiaries: [
       {
         role: "primary",
@@ -142,7 +140,6 @@ export const MockData: Policy[] = [
       zip: 60601,
       phoneNumber: "555-5678",
     },
-    distributionType: "dollar",
     beneficiaries: [
       {
         role: "primary",
@@ -187,7 +184,6 @@ export const MockData: Policy[] = [
       zip: 61602,
       phoneNumber: "555-8765",
     },
-    distributionType: "percentage",
     beneficiaries: [
       {
         role: "primary",
@@ -277,9 +273,11 @@ const PolicyCellRenderer = (params: any) => {
       >
         {params.data?.policyNumber}
       </Button>
-      <Text component={"div"} size={"xs"} color={"dimmed"}>
-        Last Updated: {params.data?.lastUpdated}
-      </Text>
+      {params.data?.lastUpdated && (
+        <Text component={"div"} size={"xs"} color={"dimmed"}>
+          Last Updated: {params.data?.lastUpdated}
+        </Text>
+      )}
     </div>
   );
 };
