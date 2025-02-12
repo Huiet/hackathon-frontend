@@ -1,41 +1,48 @@
 import * as React from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 
-
 export const Route = createFileRoute('/about')({
     component: AboutComponent,
 });
 
 function AboutComponent() {
     React.useEffect(() => {
-        if (window.SwaggerUIBundle) {
-            window.SwaggerUIBundle({
-                url: '/merged-swagger.json',  // Path to your merged Swagger file
-                dom_id: '#swagger-container',
-                deepLinking: true,
-                docExpansion: 'none',  // Keeps all sections collapsed initially
-                defaultModelsExpandDepth: -1,  // Hides schema models by default
-                layout: 'BaseLayout',  // Removes top bar but avoids limiting the container
-                presets: [window.SwaggerUIBundle.presets.apis],
-                operationsSorter: 'alpha'
-            });
-        }
+        const swaggerFiles = [
+            { id: 'swagger-ai', url: '/ai-swagger-api.json', title: 'AI API' },
+            { id: 'swagger-notification', url: '/notification-swagger-api.json', title: 'Notification API' },
+            { id: 'swagger-carrierx', url: '/carrierx-swagger-api.json', title: 'CarrierX API' },
+            { id: 'swagger-bene', url: '/bene-swagger-api.json', title: 'Bene Orchestration API' }
+        ];
+
+        swaggerFiles.forEach(({ id, url }) => {
+            if (window.SwaggerUIBundle) {
+                window.SwaggerUIBundle({
+                    url,
+                    dom_id: `#${id}`,
+                    deepLinking: true,
+                    // docExpansion: 'full',          // Auto-expands all endpoints
+                    // defaultModelsExpandDepth: -1,  // Hides schemas by default
+                    operationsSorter: 'alpha',     // Sorts operations alphabetically
+                    tagsSorter: 'alpha'            // Sorts tags alphabetically
+                });
+            }
+        });
     }, []);
 
     return (
-        <div style={{ width: '100vw', height: '100vh', padding: 0, margin: 0 }}>
-            <div id="swagger-container" style={{ width: '100%', height: '100%' }}></div>
-        </div>
-    );
-
-
-    return (
-        <div className="p-2">
-            <h3 className="text-xl font-bold mb-4">API Documentation</h3>
-            <p className="mb-4">
-                This page contains the Swagger documentation for our API.
-            </p>
-            <div id="swagger-container" style={{ height: '80vh', width: '100%' }}></div>
+        <div style={{ padding: '0', margin: '0', width: '100vw' }}>
+            <h2 style={{ padding: '20px' }}>API Documentation</h2>
+            {[
+                { id: 'swagger-ai', title: 'AI API' },
+                { id: 'swagger-notification', title: 'Notification API' },
+                { id: 'swagger-carrierx', title: 'CarrierX API' },
+                { id: 'swagger-bene', title: 'Bene Orchestration API' }
+            ].map(({ id, title }) => (
+                <div key={id} style={{ width: '100vw', marginBottom: '50px' }}>
+                    <h3 style={{ padding: '10px' }}>{title}</h3>
+                    <div id={id} style={{ width: '100%', height: '600px' }}></div>
+                </div>
+            ))}
         </div>
     );
 }
