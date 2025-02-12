@@ -1,12 +1,20 @@
-import { Table, NumberFormatter } from "@mantine/core";
+import { Table, NumberFormatter, Center, Title } from "@mantine/core";
 import { Beneficiary } from "../PolicyGrid";
 import { camelCaseToWords } from "../routes/$userId/edit-policies/edit-beneficiaries";
+import { CardContainer } from "./CardContainer";
 
 type BeneTableProps = {
   beneficiaries: Beneficiary[];
 };
 
 export const BeneTable = ({ beneficiaries }: BeneTableProps) => {
+  if (beneficiaries.length === 0) {
+    return (
+      <Center p={"xl"}>
+        <Title>No Beneficiaries Found. Please Add Beneficiaries.</Title>
+      </Center>
+    );
+  }
   return (
     <Table striped highlightOnHover withRowBorders={false}>
       <Table.Thead>
