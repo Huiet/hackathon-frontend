@@ -42,19 +42,19 @@ function RouteComponent() {
         }
 
         const primaryBeneficiaries = values.beneficiaries?.filter(
-          (beneficiary) => beneficiary.role === "primary",
+          (beneficiary) => beneficiary.beneRole === "primary",
         );
         const secondaryBeneficiaries = values.beneficiaries?.filter(
-          (beneficiary) => beneficiary.role === "contingent",
+          (beneficiary) => beneficiary.beneRole === "contingent",
         );
         const sumOfSecondaryBeneficiaries = secondaryBeneficiaries?.reduce(
-          (sum, beneficiary) => sum + +beneficiary.value || 0,
+          (sum, beneficiary) => sum + +beneficiary.beneValue || 0,
           0,
         );
 
         if ((primaryBeneficiaries?.length || 0) > 0) {
           const sumOfPrimaryBeneficiaries = primaryBeneficiaries?.reduce(
-            (sum, beneficiary) => sum + +beneficiary.value || 0,
+            (sum, beneficiary) => sum + +beneficiary.beneValue || 0,
             0,
           );
           if (sumOfPrimaryBeneficiaries !== 100) {
@@ -85,8 +85,8 @@ function RouteComponent() {
           </Table.Thead>
           <Table.Tbody>
             {policy.beneficiaries.map((beneficiary, index) => (
-              <Table.Tr key={beneficiary.name}>
-                <Table.Td>{beneficiary.name}</Table.Td>
+              <Table.Tr key={beneficiary.beneName}>
+                <Table.Td>{beneficiary.beneName}</Table.Td>
                 <Table.Td>
                   <Switch
                     {...beneficiaryForm.getInputProps(
@@ -94,7 +94,6 @@ function RouteComponent() {
                       { type: "checkbox" },
                     )}
                     onChange={(e) => {
-                      console.log(",change per stirpes", e);
                       for (let i = 0; i < policy.beneficiaries.length; i++) {
                         beneficiaryForm.setFieldValue(
                           `beneficiaries.${i}.persterpies`,
@@ -108,12 +107,12 @@ function RouteComponent() {
                   <NumberInput
                     rightSection={"%"}
                     {...beneficiaryForm.getInputProps(
-                      `beneficiaries.${index}.value`,
+                      `beneficiaries.${index}.beneValue`,
                     )}
                     onChange={(e) => {
                       console.log(",change value", e);
                       beneficiaryForm.setFieldValue(
-                        `beneficiaries.${index}.value`,
+                        `beneficiaries.${index}.beneValue`,
                         e === "" ? "" : +e,
                       );
                       beneficiaryForm.validate();
@@ -122,7 +121,7 @@ function RouteComponent() {
                     error={beneficiaryForm.errors.beneficiaries}
                   />
                 </Table.Td>
-                <Table.Td>{camelCaseToWords(beneficiary.role)}</Table.Td>
+                <Table.Td>{camelCaseToWords(beneficiary.beneRole)}</Table.Td>
               </Table.Tr>
             ))}
           </Table.Tbody>
@@ -131,6 +130,10 @@ function RouteComponent() {
           <Button
             disabled={!beneficiaryForm.isValid()}
             onClick={() => {
+              if (!beneficiaryForm.isValid()) {
+                beneficiaryForm.validate();
+                return;
+              }
               const newPolicy = {
                 ...policy,
                 beneficiaries: beneficiaryForm.values.beneficiaries,

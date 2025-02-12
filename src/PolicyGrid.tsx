@@ -32,11 +32,11 @@ export type PolicySummary = {
 };
 
 export type Beneficiary = {
-  role: string;
+  beneRole: string;
   relationship: string;
-  name: string;
-  type: string;
-  value: number | "";
+  beneName: string;
+  beneType: string;
+  beneValue: number | "";
   email: string;
   address: string;
   phoneNumber: number | "";
@@ -57,6 +57,7 @@ export type Policy = {
     lastName: string;
     middleName: string;
     address: string;
+    email: string;
     city: string;
     state: string;
     zip: number;
@@ -87,33 +88,33 @@ export const MockData: Policy[] = [
     },
     beneficiaries: [
       {
-        role: "primary",
+        beneRole: "primary",
         relationship: "spouse",
-        name: "Sarah Smith",
-        type: "percentage",
-        value: 100,
+        beneName: "Sarah Smith",
+        beneType: "percentage",
+        beneValue: 100,
         email: "SarahSmith@foo.com",
         address: "somewhere",
         phoneNumber: 123123123,
         perStirpes: true,
       },
       {
-        role: "contingent",
+        beneRole: "contingent",
         relationship: "child",
-        name: "Emily Smith",
-        type: "percentage",
-        value: 50,
+        beneName: "Emily Smith",
+        beneType: "percentage",
+        beneValue: 50,
         email: "SarahSmith@foo.com",
         address: "somewhere",
         phoneNumber: 123123123,
         perStirpes: true,
       },
       {
-        role: "contingent",
+        beneRole: "contingent",
         relationship: "sibling",
-        name: "David Smith",
-        type: "percentage",
-        value: 50,
+        beneName: "David Smith",
+        beneType: "percentage",
+        beneValue: 50,
         email: "SarahSmith@foo.com",
         address: "somewhere",
         phoneNumber: 123123123,
@@ -142,22 +143,22 @@ export const MockData: Policy[] = [
     },
     beneficiaries: [
       {
-        role: "primary",
+        beneRole: "primary",
         relationship: "spouse",
-        name: "Tom Johnson",
-        type: "dollar",
-        value: 100,
+        beneName: "Tom Johnson",
+        beneType: "dollar",
+        beneValue: 100,
         email: "SarahSmith@foo.com",
         address: "somewhere",
         phoneNumber: 123123123,
         perStirpes: true,
       },
       {
-        role: "contingent",
+        beneRole: "contingent",
         relationship: "child",
-        name: "Sophia Johnson",
-        type: "dollar",
-        value: 100,
+        beneName: "Sophia Johnson",
+        beneType: "dollar",
+        beneValue: 100,
         email: "SarahSmith@foo.com",
         address: "somewhere",
         phoneNumber: 123123123,
@@ -186,11 +187,11 @@ export const MockData: Policy[] = [
     },
     beneficiaries: [
       {
-        role: "primary",
+        beneRole: "primary",
         relationship: "partner",
-        name: "Jessica Brown",
-        type: "percentage",
-        value: 100,
+        beneName: "Jessica Brown",
+        beneType: "percentage",
+        beneValue: 100,
         email: "SarahSmith@foo.com",
         address: "somewhere",
         phoneNumber: 123123123,
@@ -264,7 +265,7 @@ const selectionColumnDef: ColDef = {
 
 const PolicyCellRenderer = (params: any) => {
   return (
-    <div style={{ lineHeight: "1rem" }}>
+    <div style={params.data?.lastUpdated ? { lineHeight: "1rem" } : {}}>
       <Button
         pl={0}
         variant={"transparent"}

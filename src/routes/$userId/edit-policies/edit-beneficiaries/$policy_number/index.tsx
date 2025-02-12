@@ -46,7 +46,7 @@ function EditPolicyBeneficiaries() {
     },
     {
       label: "Change Allocations / Stirpes",
-      route: "update_allocations",
+      route: "modify_policy/allocations",
     },
   ];
 
