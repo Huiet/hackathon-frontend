@@ -1,30 +1,48 @@
 import React, { useState } from "react";
-import { Button, Drawer, Textarea, Stack, Text, ScrollArea, Loader } from "@mantine/core";
-import { useChatBotResponse } from "../api/serviice"; // Use the new hook
+import { Button, Drawer, Textarea, Stack, Text, ScrollArea } from "@mantine/core";
+import { useChatBotResponse } from "../api/serviice"; // Your async function for fetching chatbot responses
 
 const ChatBot: React.FC = () => {
     const [opened, setOpened] = useState<boolean>(false);
     const [input, setInput] = useState<string>("");
-    const [messages, setMessages] = useState<{ sender: "user" | "bot"; content: string }[]>([]);
-
-    const { data: botResponse, refetch, isFetching } = useChatBotResponse("", { enabled: false });
+    const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string }[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleSendMessage = async () => {
         if (!input.trim()) return;
 
-        const userMessage = { sender: "user", content: input };
+        const userMessage = { role: "user", content: input };
         setMessages((prev) => [...prev, userMessage]); // Add user's message to the chat
         setInput("");
 
-        // Fetch chatbot response
-        const response = await refetch({ queryKey: ["chatbotResponse", input] });
-        if (response.data) {
-            setMessages((prev) => [...prev, { sender: "bot", content: response.data }]);
-        } else {
+        // Add "Bot is typing..." message temporarily
+        setMessages((prev) => [
+            ...prev,
+            { role: "assistant", content: "Bot is typing..." },
+        ]);
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            // Call the async function to fetch the chatbot response
+            const data = await useChatBotResponse(input, messages);
+
+            // Remove "Bot is typing..." and append the actual response
             setMessages((prev) => [
-                ...prev,
-                { sender: "bot", content: "Oops! Something went wrong. Please try again." },
+                ...prev.slice(0, -1), // Remove "Bot is typing..."
+                { role: "assistant", content: data.reply } // Append the bot's actual response
             ]);
+        } catch (err) {
+            console.error("Error fetching response:", err);
+            setError("Oops! Something went wrong. Please try again.");
+            setMessages((prev) => [
+                ...prev.slice(0, -1), // Remove "Bot is typing..."
+                { role: "assistant", content: "Oops! Something went wrong. Please try again." },
+            ]);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -44,9 +62,9 @@ const ChatBot: React.FC = () => {
                             <Text
                                 key={index}
                                 style={{
-                                    alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
-                                    backgroundColor: msg.sender === "user" ? "#1c7ed6" : "#f1f3f5",
-                                    color: msg.sender === "user" ? "white" : "black",
+                                    alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
+                                    backgroundColor: msg.role === "user" ? "#1c7ed6" : "#f1f3f5",
+                                    color: msg.role === "user" ? "white" : "black",
                                     padding: "8px 12px",
                                     borderRadius: "12px",
                                     maxWidth: "70%",
@@ -56,16 +74,9 @@ const ChatBot: React.FC = () => {
                                 {msg.content}
                             </Text>
                         ))}
-                        {isFetching && (
-                            <Text
-                                style={{
-                                    alignSelf: "flex-start",
-                                    fontStyle: "italic",
-                                    color: "#868e96",
-                                    padding: "8px 12px",
-                                }}
-                            >
-                                Bot is typing...
+                        {error && (
+                            <Text color="red" style={{ marginTop: 10 }}>
+                                {error}
                             </Text>
                         )}
                     </Stack>
@@ -77,8 +88,8 @@ const ChatBot: React.FC = () => {
                     minRows={1}
                     autosize
                 />
-                <Button onClick={handleSendMessage} fullWidth style={{ marginTop: 10 }}>
-                    Send
+                <Button onClick={handleSendMessage} disabled={loading} fullWidth style={{ marginTop: 10 }}>
+                    {loading ? "Sending..." : "Send"}
                 </Button>
             </Drawer>
             <Button
