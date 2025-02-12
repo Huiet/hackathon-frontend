@@ -31,7 +31,7 @@ function RootComponent() {
       padding="md"
     >
       <AppShell.Header>
-        <Top />
+        <Top colorScheme={colorScheme} />
         <div></div>
       </AppShell.Header>
       <AppShell.Navbar>
