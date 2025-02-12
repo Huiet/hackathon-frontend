@@ -14,6 +14,7 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { useCallback, useMemo } from "react";
+import { useGetPolicies } from "./api/serviice";
 
 export type Transaction = {
   date: string;
@@ -35,7 +36,13 @@ export type Beneficiary = {
   relationship: string;
   name: string;
   type: string; //percentage/dollar
-  value: number; //	(could be percentage, could be dollar)
+  value: number | ""; //	(could be percentage, could be dollar)
+
+  email: string;
+  address: string;
+  ssn: number | "";
+  phoneNumber: number | "";
+  perStirpes: "Yes" | "No" | boolean;
 };
 
 export type Policy = {
@@ -89,6 +96,11 @@ export const MockData: Policy[] = [
         name: "Sarah Smith",
         type: "percentage",
         value: 100,
+        email: "SarahSmith@foo.com",
+        address: "somewhere",
+        ssn: 123123123,
+        phoneNumber: 123123123,
+        perStirpes: true,
       },
       {
         role: "contingent",
@@ -96,6 +108,11 @@ export const MockData: Policy[] = [
         name: "Emily Smith",
         type: "percentage",
         value: 50,
+        email: "SarahSmith@foo.com",
+        address: "somewhere",
+        ssn: 123123123,
+        phoneNumber: 123123123,
+        perStirpes: true,
       },
       {
         role: "contingent",
@@ -103,6 +120,11 @@ export const MockData: Policy[] = [
         name: "David Smith",
         type: "percentage",
         value: 50,
+        email: "SarahSmith@foo.com",
+        address: "somewhere",
+        ssn: 123123123,
+        phoneNumber: 123123123,
+        perStirpes: true,
       },
     ],
   },
@@ -133,6 +155,11 @@ export const MockData: Policy[] = [
         name: "Tom Johnson",
         type: "dollar",
         value: 100,
+        email: "SarahSmith@foo.com",
+        address: "somewhere",
+        ssn: 123123123,
+        phoneNumber: 123123123,
+        perStirpes: true,
       },
       {
         role: "contingent",
@@ -140,6 +167,11 @@ export const MockData: Policy[] = [
         name: "Sophia Johnson",
         type: "dollar",
         value: 100,
+        email: "SarahSmith@foo.com",
+        address: "somewhere",
+        ssn: 123123123,
+        phoneNumber: 123123123,
+        perStirpes: true,
       },
     ],
   },
@@ -170,6 +202,11 @@ export const MockData: Policy[] = [
         name: "Jessica Brown",
         type: "percentage",
         value: 100,
+        email: "SarahSmith@foo.com",
+        address: "somewhere",
+        ssn: 123123123,
+        phoneNumber: 123123123,
+        perStirpes: true,
       },
     ],
   },
@@ -263,6 +300,8 @@ export const PolicyGrid = ({
   selectedPolicies,
   setSelectedPolicies,
 }: PolicyGridProps) => {
+  const policies = useGetPolicies();
+  console.log("policies", policies);
   const rowSelection: RowSelectionOptions | undefined = useMemo(
     () =>
       setSelectedPolicies

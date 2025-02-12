@@ -4,6 +4,7 @@ import {
   RouteIds,
   useNavigate,
 } from "@tanstack/react-router";
+import { Policy } from "../PolicyGrid";
 
 export const cleanEmptyParams = <T extends Record<string, unknown>>(
   search: T,
@@ -27,12 +28,15 @@ export function usePolicyAsSearchParams<
 >(routeId: T) {
   const routeApi = getRouteApi<T>(routeId);
   const navigate = useNavigate();
-  const policy = routeApi.useSearch();
+  const policy: Policy = routeApi.useSearch();
+  console.log("policyObject", policy);
+  // const policy = policyObject.policy;
 
-  console.log("pp", policy, routeApi);
-  const setPolicy = (partialFilters: Partial<typeof policy>) =>
+  const setPolicy = (updatedPolicy: Partial<typeof policy>) =>
     navigate({
-      search: (prev) => cleanEmptyParams({ ...prev, ...partialFilters }),
+      search: updatedPolicy,
+      replace: true,
+      // search: (prev) => cleanEmptyParams({ ...prev, ...updatedPolicy }),
     });
   const clearPolicy = () => navigate({ search: {} });
 

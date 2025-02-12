@@ -18,7 +18,7 @@ export const Route = createFileRoute("/edit-policies/edit-beneficiaries/")({
   component: RouteComponent,
 });
 
-function camelCaseToWords(s: string) {
+export function camelCaseToWords(s: string) {
   const result = s.replace(/([A-Z])/g, " $1");
   return result.charAt(0).toUpperCase() + result.slice(1);
 }
@@ -44,7 +44,7 @@ function RouteComponent() {
                 variant={"outline"}
                 component={Link}
                 to={`/edit-policies/edit-beneficiaries/${policy.policyNumber}`}
-                search={{ policy: policy }}
+                search={policy}
               >
                 Edit This Contract
               </Button>
