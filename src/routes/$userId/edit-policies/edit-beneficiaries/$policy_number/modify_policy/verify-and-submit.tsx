@@ -8,7 +8,7 @@ import { Policy, PolicyGrid } from "../../../../../../PolicyGrid";
 import { usePolicyAsSearchParams } from "../../../../../../hooks/usePolicyAsSearchParams";
 import { useGetPolicies } from "../../../../../../api/serviice";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { BeneTable } from "../../../../../../components/BeneTable";
 import { IconArrowBack } from "@tabler/icons-react";
@@ -61,12 +61,16 @@ function RouteComponent() {
   console.log("aaapolicies", policies);
   const [selectedPolicies, setSelectedPolicies] = useState<Policy[]>([]);
   console.log("ppp");
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (policies: Policy[]) => {
       return axios.post(
         "https://2205if6vs1.execute-api.us-east-1.amazonaws.com/dev/updateBene",
         { policies },
       );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`policies_${userId}`] });
     },
   });
 

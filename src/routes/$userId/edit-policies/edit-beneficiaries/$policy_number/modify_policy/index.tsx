@@ -103,8 +103,8 @@ function RouteComponent() {
                 style={{ width: "40rem" }}
               >
                 <Table.Tbody>
-                  {policy.beneficiaries?.map((bene: Beneficiary) => (
-                    <Table.Tr key={bene.beneName}>
+                  {policy.beneficiaries?.map((bene: Beneficiary, index) => (
+                    <Table.Tr key={bene.beneName + index}>
                       <Table.Td>
                         {bene.beneRole === "primary"
                           ? "Primary Beneficiary"
