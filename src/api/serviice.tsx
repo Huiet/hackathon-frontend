@@ -15,6 +15,35 @@ export function useGetPolicies(userId: string | number) {
   });
 }
 
+
+export function useGetNotifications(userId: string | number) {
+  return useQuery({
+    queryKey: ["notifications", userId],
+    queryFn: async (): Promise<string[]> => {
+      const response = await fetch(
+          `https://0mvz5u2gxl.execute-api.us-east-1.amazonaws.com/Dev/notfication`,
+          {
+            method: "POST", // Changed to POST because it carries a request body
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ customerId: `00${userId}` }),
+          }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch notifications");
+      }
+
+      const result = await response.json();
+      const parsedBody = JSON.parse(result.body.replace(/^"|"$/g, "").replace(/'/g, '"'));
+      console.log(parsedBody)
+      return parsedBody;
+    },
+  });
+}
+
+
 export interface ChatBotResponse {
   reply: string;
   conversation_history: { role: "user" | "assistant"; content: string }[];
