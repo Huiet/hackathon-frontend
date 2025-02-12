@@ -32,12 +32,11 @@ export type PolicySummary = {
 };
 
 export type Beneficiary = {
-  role: string; // (primary, secondary, contingent),
+  role: string;
   relationship: string;
   name: string;
-  type: string; //percentage/dollar
-  value: number | ""; //	(could be percentage, could be dollar)
-
+  type: string;
+  value: number | "";
   email: string;
   address: string;
   phoneNumber: number | "";

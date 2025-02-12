@@ -14,6 +14,8 @@ import { CardContainer } from "../../components/CardContainer";
 import { LabelText } from "../../components/LabelText";
 import { ValueText } from "../../components/ValueText";
 import { useGetPolicies } from "../../api/serviice";
+import { IncomesChart } from "../../components/incomesChart";
+import { DailyInsight } from "../../components/DailyInsight";
 
 export const Route = createFileRoute("/$userId/")({
   component: HomeComponent,
@@ -22,10 +24,12 @@ export const Route = createFileRoute("/$userId/")({
 function HomeComponent() {
   const params = Route.useParams();
   const userId = params.userId;
+  console.log("aauserId", userId);
   const policies = useGetPolicies(userId);
   const portfolioValue = useMemo(() => {
-    console.log("policies.data", policies.data);
+    console.log("policies", policies);
     let value = 0;
+    // todo: uncomment to test
     // policies?.data?.forEach((policy) => {
     //   value += policy.accountValue;
     // });
@@ -106,6 +110,26 @@ function HomeComponent() {
           </Group>
         </CardContainer>
       </Group>
+      <Group>
+        <Stack
+          gap={"sm"}
+          style={{
+            flex: 3,
+          }}
+        >
+          <Title order={5}>Projected Income</Title>
+          <IncomesChart />
+        </Stack>
+        <Stack
+          gap={"sm"}
+          style={{
+            flex: 4,
+          }}
+        >
+          <Title order={5}>Daily Insight</Title>
+          <DailyInsight />
+        </Stack>
+      </Group>
       <Group justify={"space-between"}>
         <Title order={4}>Policies</Title>
         <Group>
@@ -123,11 +147,20 @@ function HomeComponent() {
           <Button variant={"outline"}>Contact Advisor</Button>
         </Group>
       </Group>
-      <PolicyGrid
-        policies={policies.data || []}
-        // selectedPolicies={selectedPolicies}
-        // setSelectedPolicies={setSelectedPolicies}
-      />
+      <div
+        style={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "40rem",
+        }}
+      >
+        <PolicyGrid
+          policies={policies.data || []}
+          // selectedPolicies={selectedPolicies}
+          // setSelectedPolicies={setSelectedPolicies}
+        />
+      </div>
     </Stack>
   );
 }
