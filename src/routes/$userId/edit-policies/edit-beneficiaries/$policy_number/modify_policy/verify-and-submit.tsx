@@ -8,6 +8,8 @@ import { Policy, PolicyGrid } from "../../../../../../PolicyGrid";
 import { usePolicyAsSearchParams } from "../../../../../../hooks/usePolicyAsSearchParams";
 import { useGetPolicies } from "../../../../../../api/serviice";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 export const Route = createFileRoute(
   "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit",
@@ -51,14 +53,36 @@ function RouteComponent() {
   const userId = params.userId;
   const { policy, setPolicy } = usePolicyAsSearchParams(Route.id);
   const policies = useGetPolicies(userId);
+  const filteredPolicies = policies?.data?.filter(
+    (x) => x.policyNumber !== policy.policyNumber,
+  );
   console.log("aaapolicies", policies);
   const [selectedPolicies, setSelectedPolicies] = useState<Policy[]>([]);
   console.log("ppp");
+  const mutation = useMutation({
+    mutationFn: (policies: Policy[]) => {
+      return axios.post(
+        "https://2205if6vs1.execute-api.us-east-1.amazonaws.com/dev/updateBene",
+        { policies },
+      );
+    },
+  });
+
+  const handleSubmit = () => {
+    const benes = policy.beneficiaries;
+    const policyForSubmit: Policy[] = [policy];
+    for (const policy of filteredPolicies || []) {
+      policyForSubmit.push({ ...policy, beneficiaries: benes });
+    }
+    mutation.mutate(policyForSubmit);
+  };
   return (
     <Stack style={{ width: "100%" }}>
       <Group justify={"space-between"}>
         <Title>Verify and Submit</Title>
-        <Button>Submit Updates</Button>
+        <Button loading={mutation.isPending} onClick={handleSubmit}>
+          Submit Updates
+        </Button>
       </Group>
       <CardContainer>
         <Stack>
@@ -73,22 +97,24 @@ function RouteComponent() {
           {/*<TableOfData data={[policy]} />*/}
         </Stack>
       </CardContainer>
-      <CardContainer
-        style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
-      >
-        <Text>
-          Would you like to apply these beneficiary changes to any other policy?
-        </Text>
+      {filteredPolicies.length > 0 && (
+        <CardContainer
+          style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+        >
+          <Text>
+            Would you like to apply these beneficiary changes to any other
+            policy?
+          </Text>
 
-        <div style={{ flexGrow: 1, minHeight: "15rem" }}>
-          <PolicyGrid
-            policies={policies.data || []}
-            selectedPolicies={selectedPolicies}
-            setSelectedPolicies={(p) => setSelectedPolicies(p)}
-          />
-        </div>
-        {/*<TableOfData data={[]} />*/}
-      </CardContainer>
+          <div style={{ flexGrow: 1, minHeight: "15rem" }}>
+            <PolicyGrid
+              policies={filteredPolicies || []}
+              selectedPolicies={selectedPolicies}
+              setSelectedPolicies={(p) => setSelectedPolicies(p)}
+            />
+          </div>
+        </CardContainer>
+      )}
     </Stack>
   );
 }

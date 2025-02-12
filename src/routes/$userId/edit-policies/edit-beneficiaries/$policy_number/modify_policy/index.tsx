@@ -168,19 +168,12 @@ function RouteComponent() {
             <BeneficiaryForm
               close={() => setAddingBenificiary(false)}
               onSubmit={(beneficiary: Beneficiary) => {
-                const valid = beneficiaryForm.isValid();
-                console.log("valid", valid);
-                if (valid) {
-                  const foo = {
-                    ...policy,
-                    beneficiaries: [...policy.beneficiaries, beneficiaryForm],
-                  };
-                  setPolicy(foo);
-                  setAddingBenificiary(false);
-                } else {
-                  beneficiaryForm.validate();
-                  console.log(beneficiaryForm.errors);
-                }
+                const foo = {
+                  ...policy,
+                  beneficiaries: [...policy.beneficiaries, beneficiary],
+                };
+                setPolicy(foo);
+                setAddingBenificiary(false);
               }}
             />
           </CardContainer>
