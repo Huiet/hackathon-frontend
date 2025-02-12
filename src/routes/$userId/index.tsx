@@ -105,11 +105,12 @@ function HomeComponent() {
           </Group>
         </CardContainer>
       </Group>
-      <Group>
+      <Group wrap={"wrap"}>
         <Stack
           gap={"sm"}
           style={{
             width: "20rem",
+            minWidth: "20rem",
             flex: 3,
           }}
         >
@@ -120,6 +121,7 @@ function HomeComponent() {
           gap={"sm"}
           style={{
             flex: 4,
+            minWidth: "20rem",
           }}
         >
           <Title order={5}>Daily Insight</Title>
@@ -137,7 +139,7 @@ function HomeComponent() {
         {/*>*/}
         <Group>
           <Button variant={"outline"} component={Link} to={"edit-policies/"}>
-            Edit My Policies
+            Edit Policies
           </Button>
           <Button variant={"outline"}>Contact Advisor</Button>
         </Group>
