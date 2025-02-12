@@ -13,13 +13,17 @@ import { Policy, PolicyGrid } from "../../PolicyGrid";
 import { CardContainer } from "../../components/CardContainer";
 import { LabelText } from "../../components/LabelText";
 import { ValueText } from "../../components/ValueText";
+import { useGetPolicies } from "../../api/serviice";
 
 export const Route = createFileRoute("/$userId/")({
   component: HomeComponent,
 });
 
 function HomeComponent() {
-  const [selectedPolicies, setSelectedPolicies] = useState<Policy[]>([]);
+  const params = Route.useParams();
+  const userId = params.userId;
+  const policies = useGetPolicies(userId);
+  // console.log("mmmm", policies);
   return (
     <Stack
       style={{
@@ -111,8 +115,9 @@ function HomeComponent() {
         </Group>
       </Group>
       <PolicyGrid
-      // selectedPolicies={selectedPolicies}
-      // setSelectedPolicies={setSelectedPolicies}
+        policies={policies}
+        // selectedPolicies={selectedPolicies}
+        // setSelectedPolicies={setSelectedPolicies}
       />
     </Stack>
   );

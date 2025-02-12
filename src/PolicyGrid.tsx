@@ -40,7 +40,6 @@ export type Beneficiary = {
 
   email: string;
   address: string;
-  ssn: number | "";
   phoneNumber: number | "";
   perStirpes: "Yes" | "No" | boolean;
 };
@@ -98,7 +97,6 @@ export const MockData: Policy[] = [
         value: 100,
         email: "SarahSmith@foo.com",
         address: "somewhere",
-        ssn: 123123123,
         phoneNumber: 123123123,
         perStirpes: true,
       },
@@ -110,7 +108,6 @@ export const MockData: Policy[] = [
         value: 50,
         email: "SarahSmith@foo.com",
         address: "somewhere",
-        ssn: 123123123,
         phoneNumber: 123123123,
         perStirpes: true,
       },
@@ -122,7 +119,6 @@ export const MockData: Policy[] = [
         value: 50,
         email: "SarahSmith@foo.com",
         address: "somewhere",
-        ssn: 123123123,
         phoneNumber: 123123123,
         perStirpes: true,
       },
@@ -157,7 +153,6 @@ export const MockData: Policy[] = [
         value: 100,
         email: "SarahSmith@foo.com",
         address: "somewhere",
-        ssn: 123123123,
         phoneNumber: 123123123,
         perStirpes: true,
       },
@@ -169,7 +164,6 @@ export const MockData: Policy[] = [
         value: 100,
         email: "SarahSmith@foo.com",
         address: "somewhere",
-        ssn: 123123123,
         phoneNumber: 123123123,
         perStirpes: true,
       },
@@ -204,7 +198,6 @@ export const MockData: Policy[] = [
         value: 100,
         email: "SarahSmith@foo.com",
         address: "somewhere",
-        ssn: 123123123,
         phoneNumber: 123123123,
         perStirpes: true,
       },
@@ -295,12 +288,13 @@ const PolicyCellRenderer = (params: any) => {
 type PolicyGridProps = {
   selectedPolicies?: Policy[];
   setSelectedPolicies?: (policies: Policy[]) => void;
+  policies: Policy[];
 };
 export const PolicyGrid = ({
   selectedPolicies,
   setSelectedPolicies,
+  policies,
 }: PolicyGridProps) => {
-  const policies = useGetPolicies();
   console.log("policies", policies);
   const rowSelection: RowSelectionOptions | undefined = useMemo(
     () =>

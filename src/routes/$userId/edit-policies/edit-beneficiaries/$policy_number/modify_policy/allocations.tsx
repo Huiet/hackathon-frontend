@@ -1,10 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { isNotEmpty, useForm } from "@mantine/form";
-import { Beneficiary, MockData, Policy } from "../../../../../../PolicyGrid";
+import { useForm } from "@mantine/form";
+import { Policy } from "../../../../../../PolicyGrid";
 import { usePolicyAsSearchParams } from "../../../../../../hooks/usePolicyAsSearchParams";
 import {
-  Radio,
-  Input,
   Stack,
   Table,
   Title,
@@ -15,6 +13,7 @@ import {
 } from "@mantine/core";
 import { CardContainer } from "../../../../../../components";
 import { camelCaseToWords } from "../../index";
+import { useGetPolicies } from "../../../../../../api/serviice";
 
 export const Route = createFileRoute(
   "/$userId/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations",
@@ -25,7 +24,9 @@ export const Route = createFileRoute(
 function RouteComponent() {
   const navigate = useNavigate();
   const params = Route.useParams();
-  const policyBeforeEdits = MockData.find(
+  const userId = params.userId;
+  const policies = useGetPolicies(userId);
+  const policyBeforeEdits = policies?.data?.find(
     (policy) => policy.policyNumber === params.policy_number,
   );
   const { policy, setPolicy } = usePolicyAsSearchParams(Route.id);
@@ -89,14 +90,14 @@ function RouteComponent() {
                 <Table.Td>
                   <Switch
                     {...beneficiaryForm.getInputProps(
-                      `beneficiaries.${index}.perStirpes`,
+                      `beneficiaries.${index}.persterpies`,
                       { type: "checkbox" },
                     )}
                     onChange={(e) => {
                       console.log(",change per stirpes", e);
                       for (let i = 0; i < policy.beneficiaries.length; i++) {
                         beneficiaryForm.setFieldValue(
-                          `beneficiaries.${i}.perStirpes`,
+                          `beneficiaries.${i}.persterpies`,
                           e.target.checked,
                         );
                       }

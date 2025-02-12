@@ -10,9 +10,8 @@ import {
   NumberFormatter,
 } from "@mantine/core";
 import { CardContainer } from "../../../../components";
-import { MockData } from "../../../../PolicyGrid";
 import { PolicyDetailsButton } from "../../../../components/PolicyDetailsButton";
-import { usePolicyAsSearchParams } from "../../../../hooks/usePolicyAsSearchParams";
+import { useGetPolicies } from "../../../../api/serviice";
 
 export const Route = createFileRoute(
   "/$userId/edit-policies/edit-beneficiaries/",
@@ -27,10 +26,14 @@ export function camelCaseToWords(s: string) {
 
 function RouteComponent() {
   const { colorScheme } = useMantineColorScheme();
+
+  const params = Route.useParams();
+  const userId = params.userId;
+  const policies = useGetPolicies(userId);
   return (
     <Stack style={{ flexGrow: 1, maxWidth: "80rem" }}>
       <Title>Beneficiaries</Title>
-      {MockData.map((policy) => (
+      {policies?.data?.map((policy) => (
         <CardContainer
           style={{
             flexGrow: 1,

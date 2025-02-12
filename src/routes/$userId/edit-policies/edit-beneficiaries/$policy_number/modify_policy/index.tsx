@@ -10,7 +10,6 @@ import {
   Group,
   Stack,
   Table,
-  ActionIcon,
   TextInput,
   NumberInput,
   RadioGroup,
@@ -52,7 +51,6 @@ function RouteComponent() {
       value: "",
       email: "",
       address: "",
-      ssn: "",
       phoneNumber: "",
     },
     validate: {
@@ -63,7 +61,6 @@ function RouteComponent() {
       // value: isNotEmpty("Required"),
       email: isNotEmpty("Required"),
       address: isNotEmpty("Required"),
-      ssn: isNotEmpty("Required"),
       phoneNumber: isNotEmpty("Required"),
     },
   });
@@ -166,10 +163,6 @@ function RouteComponent() {
                 {...beneficiaryForm.getInputProps("phoneNumber")}
               />
 
-              <NumberInput
-                label={"SSN Number"}
-                {...beneficiaryForm.getInputProps("ssn")}
-              />
               <RadioGroup {...beneficiaryForm.getInputProps("role")}>
                 <Radio label={"Primayy"} value={"primary"}></Radio>
                 <Radio label={"Contingent"} value={"contingent"}></Radio>
