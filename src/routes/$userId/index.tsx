@@ -1,7 +1,14 @@
 import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Group, NumberFormatter, Stack, Title, Button } from "@mantine/core";
-import { useMemo } from "react";
+import {
+  Group,
+  NumberFormatter,
+  Stack,
+  Title,
+  Button,
+  Modal,
+} from "@mantine/core";
+import { useMemo, useState } from "react";
 import { PolicyGrid } from "../../PolicyGrid";
 import { CardContainer } from "../../components/CardContainer";
 import { LabelText } from "../../components/LabelText";
@@ -9,6 +16,7 @@ import { ValueText } from "../../components/ValueText";
 import { useGetPolicies } from "../../api/serviice";
 import { IncomesChart } from "../../components/incomesChart";
 import { DailyInsight } from "../../components/DailyInsight";
+import { ContactAdvisor } from "../../components/ContactAdvisor";
 
 export const Route = createFileRoute("/$userId/")({
   component: HomeComponent,
@@ -28,6 +36,8 @@ function HomeComponent() {
   }, [policies]);
 
   const owner = policies?.data?.[0]?.owner;
+
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
   // console.log("mmmm", policies);
   return (
@@ -109,8 +119,8 @@ function HomeComponent() {
         <Stack
           gap={"sm"}
           style={{
-            width: "20rem",
-            minWidth: "20rem",
+            width: "25rem",
+            minWidth: "25rem",
             flex: 3,
           }}
         >
@@ -141,7 +151,9 @@ function HomeComponent() {
           <Button variant={"outline"} component={Link} to={"edit-policies/"}>
             Edit Policies
           </Button>
-          <Button variant={"outline"}>Contact Advisor</Button>
+          <Button variant={"outline"} onClick={() => setIsModalOpened(true)}>
+            Contact Advisor
+          </Button>
         </Group>
       </Group>
       <div
@@ -158,6 +170,15 @@ function HomeComponent() {
           // setSelectedPolicies={setSelectedPolicies}
         />
       </div>
+      <Modal
+        title="Contact Advisor"
+        centered
+        opened={isModalOpened}
+        size={"xl"}
+        onClose={() => setIsModalOpened(false)}
+      >
+        <ContactAdvisor />
+      </Modal>
     </Stack>
   );
 }
