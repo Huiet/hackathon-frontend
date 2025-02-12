@@ -32,7 +32,6 @@ export function usePolicyAsSearchParams<
   console.log("policyObject", policy);
   // const policy = policyObject.policy;
 
-  console.log("pp", policy, routeApi);
   const setPolicy = (updatedPolicy: Partial<typeof policy>) =>
     navigate({
       search: updatedPolicy,

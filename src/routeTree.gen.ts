@@ -20,6 +20,8 @@ import { Route as EditPoliciesEditBeneficiariesIndexImport } from './routes/edit
 import { Route as EditPoliciesEditBeneficiariesLayoutImport } from './routes/edit-policies/edit-beneficiaries/_layout'
 import { Route as EditPoliciesEditBeneficiariesPolicynumberIndexImport } from './routes/edit-policies/edit-beneficiaries/$policy_number/index'
 import { Route as EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexImport } from './routes/edit-policies/edit-beneficiaries/$policy_number/modify_policy/index'
+import { Route as EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitImport } from './routes/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
+import { Route as EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsImport } from './routes/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
 
 // Create Virtual Routes
 
@@ -81,6 +83,24 @@ const EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute =
     getParentRoute: () => EditPoliciesEditBeneficiariesRoute,
   } as any)
 
+const EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute =
+  EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitImport.update(
+    {
+      id: '/$policy_number/modify_policy/verify-and-submit',
+      path: '/$policy_number/modify_policy/verify-and-submit',
+      getParentRoute: () => EditPoliciesEditBeneficiariesRoute,
+    } as any,
+  )
+
+const EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute =
+  EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsImport.update(
+    {
+      id: '/$policy_number/modify_policy/allocations',
+      path: '/$policy_number/modify_policy/allocations',
+      getParentRoute: () => EditPoliciesEditBeneficiariesRoute,
+    } as any,
+  )
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -134,6 +154,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EditPoliciesEditBeneficiariesPolicynumberIndexImport
       parentRoute: typeof EditPoliciesEditBeneficiariesImport
     }
+    '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations': {
+      id: '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
+      path: '/$policy_number/modify_policy/allocations'
+      fullPath: '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
+      preLoaderRoute: typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsImport
+      parentRoute: typeof EditPoliciesEditBeneficiariesImport
+    }
+    '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit': {
+      id: '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
+      path: '/$policy_number/modify_policy/verify-and-submit'
+      fullPath: '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
+      preLoaderRoute: typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitImport
+      parentRoute: typeof EditPoliciesEditBeneficiariesImport
+    }
     '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/': {
       id: '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/'
       path: '/$policy_number/modify_policy'
@@ -150,6 +184,8 @@ interface EditPoliciesEditBeneficiariesRouteChildren {
   EditPoliciesEditBeneficiariesLayoutRoute: typeof EditPoliciesEditBeneficiariesLayoutRoute
   EditPoliciesEditBeneficiariesIndexRoute: typeof EditPoliciesEditBeneficiariesIndexRoute
   EditPoliciesEditBeneficiariesPolicynumberIndexRoute: typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
+  EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute: typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute
+  EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute: typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute
   EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute: typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
 
@@ -161,6 +197,10 @@ const EditPoliciesEditBeneficiariesRouteChildren: EditPoliciesEditBeneficiariesR
       EditPoliciesEditBeneficiariesIndexRoute,
     EditPoliciesEditBeneficiariesPolicynumberIndexRoute:
       EditPoliciesEditBeneficiariesPolicynumberIndexRoute,
+    EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute:
+      EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute,
+    EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute:
+      EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute,
     EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute:
       EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute,
   }
@@ -177,6 +217,8 @@ export interface FileRoutesByFullPath {
   '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesLayoutRoute
   '/edit-policies/edit-beneficiaries/': typeof EditPoliciesEditBeneficiariesIndexRoute
   '/edit-policies/edit-beneficiaries/$policy_number': typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute
   '/edit-policies/edit-beneficiaries/$policy_number/modify_policy': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
 
@@ -186,6 +228,8 @@ export interface FileRoutesByTo {
   '/edit-policies': typeof EditPoliciesIndexRoute
   '/edit-policies/edit-beneficiaries': typeof EditPoliciesEditBeneficiariesIndexRoute
   '/edit-policies/edit-beneficiaries/$policy_number': typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute
   '/edit-policies/edit-beneficiaries/$policy_number/modify_policy': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
 
@@ -198,6 +242,8 @@ export interface FileRoutesById {
   '/edit-policies/edit-beneficiaries/_layout': typeof EditPoliciesEditBeneficiariesLayoutRoute
   '/edit-policies/edit-beneficiaries/': typeof EditPoliciesEditBeneficiariesIndexRoute
   '/edit-policies/edit-beneficiaries/$policy_number/': typeof EditPoliciesEditBeneficiariesPolicynumberIndexRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyAllocationsRoute
+  '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyVerifyAndSubmitRoute
   '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/': typeof EditPoliciesEditBeneficiariesPolicynumberModifypolicyIndexRoute
 }
 
@@ -210,6 +256,8 @@ export interface FileRouteTypes {
     | '/edit-policies/edit-beneficiaries'
     | '/edit-policies/edit-beneficiaries/'
     | '/edit-policies/edit-beneficiaries/$policy_number'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
     | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -218,6 +266,8 @@ export interface FileRouteTypes {
     | '/edit-policies'
     | '/edit-policies/edit-beneficiaries'
     | '/edit-policies/edit-beneficiaries/$policy_number'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
     | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy'
   id:
     | '__root__'
@@ -228,6 +278,8 @@ export interface FileRouteTypes {
     | '/edit-policies/edit-beneficiaries/_layout'
     | '/edit-policies/edit-beneficiaries/'
     | '/edit-policies/edit-beneficiaries/$policy_number/'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations'
+    | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit'
     | '/edit-policies/edit-beneficiaries/$policy_number/modify_policy/'
   fileRoutesById: FileRoutesById
 }
@@ -278,6 +330,8 @@ export const routeTree = rootRoute
         "/edit-policies/edit-beneficiaries/_layout",
         "/edit-policies/edit-beneficiaries/",
         "/edit-policies/edit-beneficiaries/$policy_number/",
+        "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations",
+        "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit",
         "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/"
       ]
     },
@@ -291,6 +345,14 @@ export const routeTree = rootRoute
     },
     "/edit-policies/edit-beneficiaries/$policy_number/": {
       "filePath": "edit-policies/edit-beneficiaries/$policy_number/index.tsx",
+      "parent": "/edit-policies/edit-beneficiaries"
+    },
+    "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations": {
+      "filePath": "edit-policies/edit-beneficiaries/$policy_number/modify_policy/allocations.tsx",
+      "parent": "/edit-policies/edit-beneficiaries"
+    },
+    "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit": {
+      "filePath": "edit-policies/edit-beneficiaries/$policy_number/modify_policy/verify-and-submit.tsx",
       "parent": "/edit-policies/edit-beneficiaries"
     },
     "/edit-policies/edit-beneficiaries/$policy_number/modify_policy/": {

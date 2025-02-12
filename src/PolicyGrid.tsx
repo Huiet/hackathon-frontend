@@ -41,6 +41,7 @@ export type Beneficiary = {
   address: string;
   ssn: number | "";
   phoneNumber: number | "";
+  perStirpes: "Yes" | "No" | boolean;
 };
 
 export type Policy = {

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Beneficiary, MockData } from "../../../../../PolicyGrid";
 import { CardContainer, PolicyDetailsButton } from "../../../../../components";
 import {
@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 import { usePolicyAsSearchParams } from "../../../../../hooks/usePolicyAsSearchParams";
-import { IconRotateClockwise2 } from "@tabler/icons-react";
+import { IconPlus, IconRotateClockwise2 } from "@tabler/icons-react";
 import { isNotEmpty, useForm } from "@mantine/form";
 
 export const Route = createFileRoute(
@@ -25,11 +25,12 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
-  const [addingBenificiary, setAddingBenificiary] = useState<boolean>(false);
   const params = Route.useParams();
+  const [addingBenificiary, setAddingBenificiary] = useState<boolean>(false);
   const policyBeforeEdits = MockData.find(
     (policy) => policy.policyNumber === params.policy_number,
   );
+
   const { policy, setPolicy } = usePolicyAsSearchParams(Route.id);
   console.log("p", policy.beneficiaries);
   const [currentBeneficiaries, setCurrentBeneficiaries] = useState<
@@ -79,6 +80,9 @@ function RouteComponent() {
             )}
 
             <Button
+              variant={"outline"}
+              size={"compact-md"}
+              leftSection={<IconPlus />}
               disabled={addingBenificiary}
               onClick={() => setAddingBenificiary(true)}
             >
@@ -122,7 +126,7 @@ function RouteComponent() {
               ))}
             </Table.Tbody>
           </Table>
-          <div>
+          <Group justify={"space-between"}>
             <Button
               leftSection={<IconRotateClockwise2 />}
               variant={"outline"}
@@ -131,7 +135,10 @@ function RouteComponent() {
             >
               Undo Changes
             </Button>
-          </div>
+            <Button component={Link} to="allocations" search={policy}>
+              Next
+            </Button>
+          </Group>
         </Stack>
       </CardContainer>
 
