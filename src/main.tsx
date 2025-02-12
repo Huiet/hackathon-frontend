@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
+import ChatBot from "./components/ChatBot"; // Import ChatBot component
 
 import "@mantine/core/styles.css";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
@@ -21,6 +22,7 @@ const router = createRouter({
 
 // Register all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);
+
 // Register things for typesafety
 declare module "@tanstack/react-router" {
   interface Register {
@@ -28,7 +30,7 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const rootElement = document.getElementById("app")!;
+const rootElement = document.getElementById("app");
 
 const theme = createTheme({
   primaryColor: "blue",
@@ -49,13 +51,14 @@ const theme = createTheme({
       },
     }),
   },
-  /** Put your mantine theme override here */
 });
-if (!rootElement.innerHTML) {
+
+if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <MantineProvider theme={theme}>
-      <RouterProvider router={router} />
-    </MantineProvider>,
+      <MantineProvider theme={theme}>
+        <RouterProvider router={router} />
+        <ChatBot /> {/* Add the ChatBot here to persist across pages */}
+      </MantineProvider>
   );
 }
